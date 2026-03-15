@@ -96,8 +96,8 @@ export function init(container, unlock) {
     `;
 
     canvas = container.querySelector('#strom-canvas');
-    canvasW = Math.min(canvas.parentElement.offsetWidth || 400, 500);
-    canvasH = 130;
+    canvasW = Math.min(canvas.parentElement.offsetWidth || window.innerWidth - 48, 500);
+    canvasH = Math.max(110, Math.round(canvasW * 0.28));
     canvas.width = canvasW;
     canvas.height = canvasH;
     ctx = canvas.getContext('2d');

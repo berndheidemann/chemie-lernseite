@@ -98,8 +98,8 @@ export function init(container, unlock) {
     `;
 
     canvas = container.querySelector('#metall-canvas');
-    const w = Math.min(canvas.parentElement.offsetWidth || 420, 520);
-    const h = 180;
+    const w = Math.min(canvas.parentElement.offsetWidth || window.innerWidth - 48, 520);
+    const h = Math.max(150, Math.round(w * 0.36));
     canvas.width = w;
     canvas.height = h;
     ctx = canvas.getContext('2d');

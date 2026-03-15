@@ -181,7 +181,13 @@ export function init(container, unlock) {
         ${svgIons}
       </svg>
       ${tooltip}
-      <p class="widget-hint">Tippe auf ein Ion, um die Coulomb-Kräfte zu den Nachbarn zu sehen</p>
+      <!-- 3 Eigenschaften von Salzen (Lernzettel Punkt 5) -->
+      <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-top:0.75rem">
+        <span class="badge badge-amber" style="flex:1; min-width:100px; text-align:center; padding:5px 6px; font-size:0.75rem; text-transform:none; letter-spacing:0">🌡 Hoher Schmelzpunkt</span>
+        <span class="badge badge-pink" style="flex:1; min-width:80px; text-align:center; padding:5px 6px; font-size:0.75rem; text-transform:none; letter-spacing:0">🔨 Spröde</span>
+        <span class="badge badge-blue" style="flex:1; min-width:110px; text-align:center; padding:5px 6px; font-size:0.75rem; text-transform:none; letter-spacing:0">⚡ Leitet in Lösung/Schmelze</span>
+      </div>
+      <p class="widget-hint">Tippe auf ein Ion, um die Coulomb-Kräfte zu den Nachbarn zu sehen · Tabs erklären alle 3 Eigenschaften</p>
     `;
   }
 

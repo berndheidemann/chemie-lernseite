@@ -143,15 +143,32 @@ export function init(container, questions, topicId) {
       dots[currentIndex].style.borderColor = correct ? 'var(--green)' : '#f75050';
     }
 
-    // Show reset if all answered
+    // Show score + reset if all answered
     if (allAnswered() && !container.querySelector(`#quiz-reset-${topicId}`)) {
+      const correctCount = answered.filter(a => a === 'correct').length;
+      const total = questions.length;
+      const allCorrect = correctCount === total;
+
+      // Score banner
       const nav = container.querySelector('.quiz-nav');
+      const scoreBanner = document.createElement('div');
+      scoreBanner.style.cssText = `width:100%; padding:0.6rem 0.75rem; border-radius:8px; text-align:center; font-weight:700; font-size:0.95rem; margin-top:0.75rem; background:${allCorrect ? 'rgba(81,207,102,0.15)' : 'rgba(255,212,59,0.12)'}; border:1px solid ${allCorrect ? 'var(--green)' : 'var(--amber)'}; color:${allCorrect ? 'var(--green)' : 'var(--amber)'}`;
+      scoreBanner.textContent = `Ergebnis: ${correctCount}/${total} richtig ${allCorrect ? '🏆' : '💪'}`;
+      if (nav) nav.insertAdjacentElement('beforebegin', scoreBanner);
+
+      // Reset button
       const resetBtn = document.createElement('button');
-      resetBtn.className = 'btn btn-green';
+      resetBtn.className = 'btn btn-secondary';
       resetBtn.id = `quiz-reset-${topicId}`;
-      resetBtn.textContent = 'Nochmal';
+      resetBtn.textContent = '↺ Nochmal';
       resetBtn.addEventListener('click', reset);
       if (nav) nav.appendChild(resetBtn);
+
+      // Fire event so app.js can update pill color
+      container.dispatchEvent(new CustomEvent('quiz-complete', {
+        bubbles: true,
+        detail: { topicId, correctCount, total, allCorrect }
+      }));
     }
   }
 

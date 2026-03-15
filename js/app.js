@@ -164,6 +164,15 @@ function initQuizzes() {
     } catch (err) {
       console.error(`Quiz ${i} init error:`, err);
     }
+
+    // Listen for quiz completion → update pill
+    container.addEventListener('quiz-complete', e => {
+      const { topicId, allCorrect } = e.detail;
+      const pill = document.querySelector(`.pill[data-topic="${topicId}"]`);
+      if (pill && allCorrect) {
+        pill.classList.add('done');
+      }
+    });
   }
 }
 

@@ -52,14 +52,14 @@ export function init(container, unlock) {
     P:  { en: 2.1, name: 'Phosphor' },
     S:  { en: 2.5, name: 'Schwefel' },
     Cl: { en: 3.0, name: 'Chlor' },
-    K:  { en: 0.8, name: 'Kalium' },
+    K:  { en: 0.9, name: 'Kalium' },
     Ca: { en: 1.0, name: 'Calcium' },
     Br: { en: 2.8, name: 'Brom' },
     I:  { en: 2.5, name: 'Iod' },
   };
 
-  let elemA = 'Na';
-  let elemB = 'Cl';
+  let elemA = 'K';
+  let elemB = 'F';
 
   function getBondType(den) {
     if (den === 0) return { type: 'Unpolare Bindung', color: 'var(--green)', icon: '⚖️', desc: 'Elektronen gleichmäßig verteilt' };
@@ -131,6 +131,15 @@ export function init(container, unlock) {
       <!-- Polar Bond Visualization -->
       ${isPolar ? renderPolarViz(elemA, elemB, enA, enB) : ''}
       ${isIonic ? renderIonicViz(lessEN, moreEN) : ''}
+
+      <!-- Lernzettel-Beispiel KF -->
+      ${(elemA === 'K' && elemB === 'F') || (elemA === 'F' && elemB === 'K') ? `
+        <div style="background:rgba(255,212,59,0.08); border:1px solid rgba(255,212,59,0.3); border-radius:8px; padding:0.65rem 0.75rem; font-size:0.85rem; margin-bottom:0.75rem">
+          <span style="color:var(--amber); font-weight:700">📋 Lernzettel-Beispiel:</span>
+          <span style="font-family:monospace; color:var(--text)"> EN K = 0,9 ; EN F = 4,0 → ΔEN = 4,0 − 0,9 = 3,1</span><br>
+          <span style="color:var(--pink); font-weight:600">Da ΔEN > 1,7 liegt eine Ionenbindung vor.</span>
+        </div>
+      ` : ''}
 
       <p class="widget-hint">ΔEN &lt; 1,7 = kovalent | ΔEN ≥ 1,7 = Ionenbindung</p>
     `;

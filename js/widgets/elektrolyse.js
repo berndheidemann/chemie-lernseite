@@ -104,8 +104,8 @@ export function init(container, unlock) {
     `;
 
     canvas = container.querySelector('#elyse-canvas');
-    const w = Math.min(canvas.parentElement.offsetWidth || 500, 560);
-    const h = 200;
+    const w = Math.min(canvas.parentElement.offsetWidth || window.innerWidth - 48, 560);
+    const h = Math.max(160, Math.round(w * 0.38));
     canvas.width = w;
     canvas.height = h;
     ctx = canvas.getContext('2d');
