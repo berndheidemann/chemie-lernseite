@@ -152,6 +152,31 @@ a:hover { text-decoration: underline; }
 
 .pill-nav::-webkit-scrollbar { display: none; }
 
+/* Fade edges to indicate scroll-ability */
+.pill-nav::before,
+.pill-nav::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2rem;
+  z-index: 2;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.pill-nav::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(11,17,32,0.9), transparent);
+}
+
+.pill-nav::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(11,17,32,0.9), transparent);
+}
+
+/* (sticky position already set above, pseudo-elements positioned relative to nav) */
+
 .pill-nav-inner {
   display: flex;
   gap: 0.5rem;
