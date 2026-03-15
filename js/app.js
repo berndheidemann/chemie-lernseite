@@ -253,8 +253,14 @@ function setupNavObserver() {
       if (e.isIntersecting) {
         pills.forEach(p => p.classList.remove('active'));
         pill.classList.add('active');
-        // Scroll pill into view
-        pill.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'smooth' });
+        // Scroll pill into view horizontally within pill-nav only (avoid interrupting page scroll)
+        const nav = document.getElementById('pill-nav');
+        if (nav) {
+          const navRect = nav.getBoundingClientRect();
+          const pillRect = pill.getBoundingClientRect();
+          const target = nav.scrollLeft + pillRect.left - navRect.left - (navRect.width - pillRect.width) / 2;
+          nav.scrollTo({ left: target, behavior: 'smooth' });
+        }
       }
     });
   }, { rootMargin: '-20% 0px -70% 0px' });
