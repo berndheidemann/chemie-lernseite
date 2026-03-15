@@ -115,9 +115,21 @@ export function init(container, unlock) {
         <div style="text-align:center; margin:0.5rem 0; padding:0.5rem; background:rgba(81,207,102,0.1); border-radius:8px; color:var(--green); font-size:0.9rem">
           ✅ ${donor.symbol} hat ${maxTransfer} Elektron${maxTransfer > 1 ? 'en' : ''} abgegeben → ${pair.product}!
         </div>
-        <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.25rem">
-          <span class="badge badge-pink" style="font-size:0.8rem">${donor.symbol}${maxTransfer > 1 ? maxTransfer : ''}⁺: ${pair.donorEG} ✓</span>
-          <span class="badge badge-blue" style="font-size:0.8rem">${acceptor.symbol}${maxTransfer > 1 ? maxTransfer : ''}⁻: ${pair.acceptorEG} ✓</span>
+        <div style="background:rgba(255,212,59,0.06); border:1px solid rgba(255,212,59,0.2); border-radius:8px; padding:0.5rem 0.75rem; margin-bottom:0.5rem; font-size:0.82rem">
+          <div style="color:var(--amber); font-weight:700; margin-bottom:0.3rem">⭐ Edelgas-Konfiguration erreicht!</div>
+          <div style="display:flex; gap:0.75rem; flex-wrap:wrap">
+            <span style="color:var(--pink)">
+              <strong>${donor.symbol}${maxTransfer > 1 ? maxTransfer : ''}⁺</strong> (${donor.protons - maxTransfer}e)
+              = <strong style="color:var(--text)">${pair.donorEG}</strong>
+            </span>
+            <span style="color:var(--blue)">
+              <strong>${acceptor.symbol}${maxTransfer > 1 ? maxTransfer : ''}⁻</strong> (${acceptor.protons + maxTransfer}e)
+              = <strong style="color:var(--text)">${pair.acceptorEG}</strong>
+            </span>
+          </div>
+          <div style="color:var(--text-muted); margin-top:0.3rem; font-size:0.78rem">
+            Oktettregel ✓ – Beide haben vollständig besetzte Außenschale → maximale Stabilität
+          </div>
         </div>
       ` : ''}
 
