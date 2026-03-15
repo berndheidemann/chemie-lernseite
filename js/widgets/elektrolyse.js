@@ -295,5 +295,14 @@ export function init(container, unlock) {
     loop();
   }
 
+  // Pause when tab hidden
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+    } else if (canvas) {
+      startAnimation();
+    }
+  });
+
   buildUI();
 }

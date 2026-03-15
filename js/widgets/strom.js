@@ -235,9 +235,20 @@ export function init(container, unlock) {
     loop();
   }
 
+  // Pause animation when tab is hidden
+  const visibilityHandler = () => {
+    if (document.hidden) {
+      if (animFrame) { cancelAnimationFrame(animFrame); animFrame = null; }
+    } else {
+      startAnimation();
+    }
+  };
+  document.addEventListener('visibilitychange', visibilityHandler);
+
   // Cleanup on re-init
   container._stromCleanup = () => {
     if (animFrame) cancelAnimationFrame(animFrame);
+    document.removeEventListener('visibilitychange', visibilityHandler);
   };
 
   buildUI();
