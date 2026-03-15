@@ -101,10 +101,10 @@ export function init(container, questions, topicId) {
       <p class="widget-hint" style="margin-top:0.75rem">Lernkarten: Decke die Antwort auf und bewerte dein Wissen.</p>
     `;
 
-    document.getElementById('mode-quiz')?.addEventListener('click', () => { quizMode = 'quiz'; render(); });
-    document.getElementById('mode-lk')?.addEventListener('click',   () => { quizMode = 'lernkarten'; renderLernkarten(); });
+    container.querySelector('#mode-quiz')?.addEventListener('click', () => { quizMode = 'quiz'; render(); });
+    container.querySelector('#mode-lk')?.addEventListener('click',   () => { quizMode = 'lernkarten'; renderLernkarten(); });
 
-    const wrap = document.getElementById('lk-wrap');
+    const wrap = container.querySelector('#lk-wrap');
     if (wrap && !allDone) {
       wrap.addEventListener('click', () => {
         cardFlipped = !cardFlipped;
@@ -112,7 +112,7 @@ export function init(container, questions, topicId) {
       });
     }
 
-    document.getElementById('lk-knew')?.addEventListener('click', e => {
+    container.querySelector('#lk-knew')?.addEventListener('click', e => {
       e.stopPropagation();
       lernkartenStatus[lernkartenIndex] = 'knew';
       lernkartenIndex = Math.min(lernkartenIndex + 1, total - 1);
@@ -120,7 +120,7 @@ export function init(container, questions, topicId) {
       renderLernkarten();
     });
 
-    document.getElementById('lk-repeat')?.addEventListener('click', e => {
+    container.querySelector('#lk-repeat')?.addEventListener('click', e => {
       e.stopPropagation();
       lernkartenStatus[lernkartenIndex] = 'repeat';
       lernkartenIndex = Math.min(lernkartenIndex + 1, total - 1);
@@ -128,7 +128,7 @@ export function init(container, questions, topicId) {
       renderLernkarten();
     });
 
-    document.getElementById('lk-reset')?.addEventListener('click', () => {
+    container.querySelector('#lk-reset')?.addEventListener('click', () => {
       lernkartenIndex = 0;
       cardFlipped = false;
       lernkartenStatus.fill(null);
