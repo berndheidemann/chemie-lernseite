@@ -249,8 +249,8 @@ function setupNavObserver() {
   function setActivePill(pill) {
     pills.forEach(p => p.classList.remove('active'));
     pill.classList.add('active');
-    // Scroll pill into view horizontally within pill-nav only
-    const nav = document.getElementById('pill-nav');
+    // Scroll pill into view horizontally within pill-nav-inner only
+    const nav = document.querySelector('.pill-nav-inner');
     if (nav) {
       const navRect = nav.getBoundingClientRect();
       const pillRect = pill.getBoundingClientRect();
