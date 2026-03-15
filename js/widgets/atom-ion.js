@@ -2,28 +2,15 @@
  * atom-ion.js – Widget: Atom, Ion, Kation & Anion
  *
  * AUFGABE:
- * Zeige zwei Atome nebeneinander: Natrium (Na) und Chlor (Cl).
- * Der Nutzer kann Elektronen vom Na-Atom zum Cl-Atom übertragen,
- * indem er auf Elektronen klickt oder "Elektron übertragen" drückt.
+ * Zeige zwei Atome nebeneinander: auswählbar Na+Cl oder Mg+O.
+ * Der Nutzer kann Elektronen übertragen und sieht wie Ionen entstehen.
  *
  * VERHALTEN:
+ * - Elemenpaar-Selektor: Na+Cl (1 Elektron) oder Mg+O (2 Elektronen)
  * - Jedes Atom wird als Kreismodell (Bohr-Modell) mit SVG gezeichnet
- * - Na hat 1 Außenschalen-Elektron (gelb), Cl hat 7 (blau)
- * - Klick auf Na-Außenelektron: Elektron "fliegt" zu Cl
- * - Ladungsanzeige ändert sich: Na → Na⁺ (rot/pink), Cl → Cl⁻ (blau)
+ * - Ladungsanzeige ändert sich nach Übertragung
  * - unlock() wird aufgerufen nach der ersten Übertragung
  * - Reset-Button setzt alles zurück
- *
- * LAYOUT (mobile-first):
- * - Zwei Kreise nebeneinander (flex-wrap: wrap auf kleinen Screens)
- * - Pfeil-Animation zwischen den Atomen während Übertragung
- * - Ladungsanzeige unter jedem Atom
- * - Buttons: "Elektron übertragen" (amber) und "Zurücksetzen" (secondary)
- *
- * TECHNOLOGIE: SVG-Kreismodell + CSS-Transitions
- *
- * CSS-Variablen (aus style.css):
- *   --amber für Na/Kern-Farbe, --blue für Elektronen, --pink für Kation-Ladung
  *
  * @param {HTMLElement} container - Ziel-div (#widget-1)
  * @param {function} unlock - Callback nach erster Schlüsselinteraktion
@@ -32,98 +19,142 @@ export function init(container, unlock) {
   let transferred = 0;
   let unlockCalled = false;
 
-  // Na: 2,8,1 → Kern, Schale 1 (2e), Schale 2 (8e), Schale 3 (1e)
-  // Cl: 2,8,7 → Kern, Schale 1 (2e), Schale 2 (8e), Schale 3 (7e)
-  // Für das Widget zeigen wir vereinfacht nur die Außenschale
+  // Elementpaar-Konfigurationen
+  const PAIRS = {
+    'nacl': {
+      label: 'Na + Cl → NaCl',
+      donor:    { symbol: 'Na', name: 'Natrium',   protons: 11, outer: 1 },
+      acceptor: { symbol: 'Cl', name: 'Chlor',     protons: 17, outer: 7 },
+      maxTransfer: 1,
+      product: 'NaCl (Natriumchlorid / Kochsalz)',
+      donorEG:   'Ne-Konfiguration (10e)',
+      acceptorEG:'Ar-Konfiguration (18e)',
+    },
+    'mgo': {
+      label: 'Mg + O → MgO',
+      donor:    { symbol: 'Mg', name: 'Magnesium', protons: 12, outer: 2 },
+      acceptor: { symbol: 'O',  name: 'Sauerstoff',protons:  8, outer: 6 },
+      maxTransfer: 2,
+      product: 'MgO (Magnesiumoxid)',
+      donorEG:   'Ne-Konfiguration (10e)',
+      acceptorEG:'Ne-Konfiguration (10e)',
+    }
+  };
 
-  const naConfig  = { symbol: 'Na', name: 'Natrium',  protons: 11, outer: 1 };
-  const clConfig  = { symbol: 'Cl', name: 'Chlor',    protons: 17, outer: 7 };
-  const maxTransfer = 1; // Na kann nur 1 Elektron abgeben
+  let currentPair = 'nacl';
+
+  function getPair() { return PAIRS[currentPair]; }
 
   function render() {
-    const naOuter = naConfig.outer - transferred;
-    const clOuter = clConfig.outer + transferred;
-    const naCharge = transferred;
-    const clCharge = -transferred;
+    const pair = getPair();
+    const { donor, acceptor, maxTransfer } = pair;
+    const donorOuter    = donor.outer    - transferred;
+    const acceptorOuter = acceptor.outer + transferred;
+    const donorCharge   = transferred;
+    const acceptorCharge = -transferred;
 
-    const naChargeStr = naCharge === 0 ? '±0' : `+${naCharge}`;
-    const clChargeStr = clCharge === 0 ? '±0' : `${clCharge}`;
-    const naType = naCharge === 0 ? 'Atom' : 'Kation';
-    const clType = clCharge === 0 ? 'Atom' : 'Anion';
+    const donorChargeStr    = donorCharge    === 0 ? '±0' : `+${donorCharge}`;
+    const acceptorChargeStr = acceptorCharge === 0 ? '±0' : `${acceptorCharge}`;
+    const donorType    = donorCharge    === 0 ? 'Atom' : 'Kation';
+    const acceptorType = acceptorCharge === 0 ? 'Atom' : 'Anion';
+
+    const done = transferred >= maxTransfer;
 
     container.innerHTML = `
-      <p class="widget-title">Klicke auf "Elektron übertragen" um zu sehen, wie Ionen entstehen</p>
+      <p class="widget-title">Wähle ein Elementpaar und übertrage Elektronen</p>
 
-      <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.5rem; margin:1rem 0">
+      <!-- Pair Selector -->
+      <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:1rem">
+        <button class="btn ${currentPair === 'nacl' ? 'btn-amber' : 'btn-secondary'}"
+          id="pair-nacl" style="font-size:0.85rem; padding:0.35rem 0.85rem">
+          Na + Cl
+        </button>
+        <button class="btn ${currentPair === 'mgo' ? 'btn-amber' : 'btn-secondary'}"
+          id="pair-mgo" style="font-size:0.85rem; padding:0.35rem 0.85rem">
+          Mg + O
+        </button>
+      </div>
 
-        <!-- Na Atom -->
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.5rem; margin:0.5rem 0">
+
+        <!-- Donor Atom -->
         <div style="text-align:center; flex:0 0 auto">
-          ${drawAtomSVG('na', naConfig.symbol, naConfig.protons, naOuter, naCharge)}
+          ${drawAtomSVG(donor.symbol, donor.protons, donorOuter, donorCharge)}
           <div style="margin-top:0.5rem">
-            <span class="charge-label ${naCharge > 0 ? 'charge-pos' : 'charge-neutral'}">${naConfig.symbol}${naCharge > 0 ? `<sup>${naChargeStr}</sup>` : ''}</span>
+            <span class="charge-label ${donorCharge > 0 ? 'charge-pos' : 'charge-neutral'}">${donor.symbol}${donorCharge > 0 ? `<sup>${donorChargeStr}</sup>` : ''}</span>
             <br>
-            <span class="badge ${naCharge > 0 ? 'badge-pink' : 'badge-amber'}">${naType}</span>
+            <span class="badge ${donorCharge > 0 ? 'badge-pink' : 'badge-amber'}">${donorType}</span>
           </div>
         </div>
 
         <!-- Arrow -->
-        <div id="atom-arrow" style="font-size:2rem; color:var(--blue); transition:opacity 0.3s; opacity:${transferred > 0 ? '1' : '0.3'}">
-          ${transferred > 0 ? '⚡' : '→'}
+        <div style="font-size:2rem; color:var(--blue); transition:opacity 0.3s; opacity:${transferred > 0 ? '1' : '0.3'}">
+          ${transferred > 0 ? '⚡'.repeat(transferred) : '→'}
         </div>
 
-        <!-- Cl Atom -->
+        <!-- Acceptor Atom -->
         <div style="text-align:center; flex:0 0 auto">
-          ${drawAtomSVG('cl', clConfig.symbol, clConfig.protons, clOuter, clCharge)}
+          ${drawAtomSVG(acceptor.symbol, acceptor.protons, acceptorOuter, acceptorCharge)}
           <div style="margin-top:0.5rem">
-            <span class="charge-label ${clCharge < 0 ? 'charge-neg' : 'charge-neutral'}">${clConfig.symbol}${clCharge < 0 ? `<sup>${clChargeStr}</sup>` : ''}</span>
+            <span class="charge-label ${acceptorCharge < 0 ? 'charge-neg' : 'charge-neutral'}">${acceptor.symbol}${acceptorCharge < 0 ? `<sup>${acceptorChargeStr}</sup>` : ''}</span>
             <br>
-            <span class="badge ${clCharge < 0 ? 'badge-blue' : 'badge-amber'}">${clType}</span>
+            <span class="badge ${acceptorCharge < 0 ? 'badge-blue' : 'badge-amber'}">${acceptorType}</span>
           </div>
         </div>
       </div>
 
-      ${transferred > 0 ? `
+      <!-- Step indicator for multi-transfer -->
+      ${maxTransfer > 1 ? `
+        <div style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin:0.25rem 0">
+          Übertragen: ${transferred} / ${maxTransfer} Elektronen
+          ${'●'.repeat(transferred)}${'○'.repeat(maxTransfer - transferred)}
+        </div>
+      ` : ''}
+
+      ${done ? `
         <div style="text-align:center; margin:0.5rem 0; padding:0.5rem; background:rgba(81,207,102,0.1); border-radius:8px; color:var(--green); font-size:0.9rem">
-          ✅ Na hat 1 Elektron abgegeben → Na⁺ (Kation) + Cl⁻ (Anion) = NaCl!
+          ✅ ${donor.symbol} hat ${maxTransfer} Elektron${maxTransfer > 1 ? 'en' : ''} abgegeben → ${pair.product}!
         </div>
         <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.25rem">
-          <span class="badge badge-pink" style="font-size:0.8rem">Na⁺: 10e = Ne-Konfiguration ✓</span>
-          <span class="badge badge-blue" style="font-size:0.8rem">Cl⁻: 18e = Ar-Konfiguration ✓</span>
+          <span class="badge badge-pink" style="font-size:0.8rem">${donor.symbol}${maxTransfer > 1 ? maxTransfer : ''}⁺: ${pair.donorEG} ✓</span>
+          <span class="badge badge-blue" style="font-size:0.8rem">${acceptor.symbol}${maxTransfer > 1 ? maxTransfer : ''}⁻: ${pair.acceptorEG} ✓</span>
         </div>
       ` : ''}
 
       <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; margin-top:1rem">
-        <button class="btn btn-amber" id="atom-transfer-btn" ${transferred >= maxTransfer ? 'disabled' : ''}>
+        <button class="btn btn-amber" id="atom-transfer-btn" ${done ? 'disabled' : ''}>
           ⚡ Elektron übertragen
         </button>
         <button class="btn btn-secondary" id="atom-reset-btn">
           ↺ Zurücksetzen
         </button>
       </div>
-      <p class="widget-hint">Na gibt sein Außenelektron ab → Na⁺. Cl nimmt es auf → Cl⁻.</p>
+      <p class="widget-hint">${currentPair === 'nacl'
+        ? 'Na gibt sein Außenelektron ab → Na⁺. Cl nimmt es auf → Cl⁻.'
+        : 'Mg gibt beide Außenelektronen ab → Mg²⁺. O nimmt 2 auf → O²⁻.'}</p>
     `;
 
+    document.getElementById('pair-nacl')?.addEventListener('click', () => selectPair('nacl'));
+    document.getElementById('pair-mgo')?.addEventListener('click',  () => selectPair('mgo'));
     document.getElementById('atom-transfer-btn')?.addEventListener('click', doTransfer);
     document.getElementById('atom-reset-btn')?.addEventListener('click', doReset);
   }
 
-  function drawAtomSVG(id, symbol, protons, outerElectrons, charge) {
+  function drawAtomSVG(symbol, protons, outerElectrons, charge) {
     const size = Math.min(160, (window.innerWidth - 120) / 2);
     const cx = size / 2;
     const cy = size / 2;
-    const r1 = size * 0.15; // inner shell radius
-    const r2 = size * 0.35; // outer shell radius (simplified 2-shell model)
+    const r1 = size * 0.15;
+    const r2 = size * 0.35;
     const kernR = size * 0.12;
 
-    // Color based on charge
     const kernColor = charge > 0 ? '#f783ac' : charge < 0 ? '#4dabf7' : '#ffd43b';
     const shellColor = 'rgba(255,255,255,0.1)';
     const eColor = '#4dabf7';
 
-    // Draw electrons on outer shell
     const ePoints = [];
     for (let i = 0; i < outerElectrons; i++) {
-      const angle = (i / 8) * 2 * Math.PI - Math.PI / 2; // max 8 positions
+      const angle = (i / 8) * 2 * Math.PI - Math.PI / 2;
       ePoints.push({
         x: cx + r2 * Math.cos(angle),
         y: cy + r2 * Math.sin(angle)
@@ -131,30 +162,24 @@ export function init(container, unlock) {
     }
 
     const eDots = ePoints.map(p =>
-      `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${size * 0.045}" fill="${eColor}" stroke="none" class="e-dot" />`
+      `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${size * 0.045}" fill="${eColor}" stroke="none" />`
     ).join('');
 
     const totalElectrons = protons - charge;
     const eCountLabel = `${protons}p / ${totalElectrons}e`;
 
     return `
-      <svg width="${size}" height="${size + size * 0.18}" viewBox="0 0 ${size} ${size + size * 0.18}" class="atom-svg">
-        <!-- Inner shell -->
+      <svg width="${size}" height="${size + size * 0.18}" viewBox="0 0 ${size} ${size + size * 0.18}">
         <circle cx="${cx}" cy="${cy}" r="${r1}" fill="none" stroke="${shellColor}" stroke-width="1.5" stroke-dasharray="3,2"/>
-        <!-- Outer shell -->
         <circle cx="${cx}" cy="${cy}" r="${r2}" fill="none" stroke="${shellColor}" stroke-width="1.5" stroke-dasharray="3,2"/>
-        <!-- Nucleus -->
         <circle cx="${cx}" cy="${cy}" r="${kernR}" fill="${kernColor}" opacity="0.9"/>
         <text x="${cx}" y="${cy + 1}" text-anchor="middle" dominant-baseline="middle"
           font-family="'Courier New',monospace" font-weight="bold" font-size="${size * 0.1}"
           fill="#000">${protons}</text>
-        <!-- Outer electrons -->
         ${eDots}
-        <!-- Symbol below nucleus -->
         <text x="${cx}" y="${cy + r2 + size * 0.1}" text-anchor="middle"
           font-family="system-ui,sans-serif" font-weight="700" font-size="${size * 0.13}"
           fill="var(--text)">${symbol}</text>
-        <!-- Electron count label -->
         <text x="${cx}" y="${size + size * 0.14}" text-anchor="middle"
           font-family="monospace" font-size="${size * 0.09}"
           fill="rgba(123,163,192,0.8)">${eCountLabel}</text>
@@ -162,8 +187,15 @@ export function init(container, unlock) {
     `;
   }
 
+  function selectPair(pairKey) {
+    currentPair = pairKey;
+    transferred = 0;
+    render();
+  }
+
   function doTransfer() {
-    if (transferred >= maxTransfer) return;
+    const pair = getPair();
+    if (transferred >= pair.maxTransfer) return;
     transferred++;
     render();
     if (!unlockCalled) {
