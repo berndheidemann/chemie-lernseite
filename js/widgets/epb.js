@@ -39,8 +39,6 @@ export function init(container, unlock) {
     Cl2: { label: 'Cl₂', atoms: ['Cl','Cl'], bonds: 1, valence: [7,7], formula: 'Cl–Cl', note: '' },
     HCl: { label: 'HCl', atoms: ['H','Cl'], bonds: 1, valence: [1,7], formula: 'H–Cl', note: '(polare Bindung: Cl zieht Elektronen stärker an)' },
     H2O: { label: 'H₂O', atoms: ['H','O'], bonds: 1, valence: [1,6], formula: 'H–O–H', note: '(Wasser: je 1 gem. EP pro H–O-Bindung, 2 freie Paare am O → Gewinkelt, polare Bindung)' },
-    NH3: { label: 'NH₃', atoms: ['N','H'], bonds: 1, valence: [5,1], formula: 'H–N(–H)–H', note: '(Ammoniak: N bildet 3 Einfachbindungen mit je 1 H, 1 freies EP am N → pyramidal, polar)' },
-    CO2: { label: 'CO₂', atoms: ['C','O'], bonds: 2, valence: [4,6], formula: 'O=C=O', note: '(Kohlendioxid: C bildet 2 Doppelbindungen → linear, freie Paare am O → Gesamtmolekül unpolar!)' },
   };
 
   let selectedMol = 'H2';

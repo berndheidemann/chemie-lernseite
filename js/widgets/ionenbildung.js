@@ -50,12 +50,6 @@ export function init(container, unlock) {
     const isDone  = step === steps.length - 1;
     const isTransfer = step === 1;
 
-    const donorElectrons    = isStart ? donor.outerStart : donor.outerEnd;
-    const acceptorElectrons = isStart ? acceptor.outerStart : acceptor.outerEnd;
-    const donorCharge    = isDone || isTransfer ? donor.outerStart : 0;
-    const acceptorCharge = isDone || isTransfer ? -acceptor.outerStart + acceptor.outerStart - (acceptorElectrons - acceptor.outerStart) : 0;
-
-    // Simpler: charges after transfer
     const dCharge = step > 0 ? pair.transfer : 0;
     const aCharge = step > 0 ? -pair.transfer : 0;
 
