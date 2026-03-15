@@ -29,7 +29,7 @@ export const QUIZ_DATA = [
     topic: 1,
     question: "Warum streben Atome nach dem Edelgaszustand?",
     options: [
-      { text: "Weil Edelgase teuer sind und Atome sie imitieren wollen", correct: false, explanation: "Das ist natürlich kein chemischer Grund." },
+      { text: "Weil Edelgase teuer sind und Atome sie imitieren wollen", correct: false, explanation: "Das ist kein wissenschaftlicher Grund – Atome 'wollen' nichts, aber energetisch günstige Konfigurationen sind stabiler." },
       { text: "Weil 8 Valenzelektronen (Oktettregel) besonders stabile Konfiguration ergeben", correct: true, explanation: "Richtig! Die vollständig besetzte Außenschale ist energetisch besonders günstig." },
       { text: "Weil Atome immer die höchste Ladung anstreben", correct: false, explanation: "Atome streben nach Neutralität oder stabiler Konfiguration, nicht nach höchster Ladung." },
       { text: "Weil Edelgaszustand bedeutet, keine Elektronen zu haben", correct: false, explanation: "Edelgase haben ihre Außenschale vollständig gefüllt (meist 8 Elektronen)." }
@@ -86,7 +86,7 @@ export const QUIZ_DATA = [
       { text: "Weil Wasser selbst ein guter Leiter ist", correct: false, explanation: "Reines Wasser ist tatsächlich kaum leitend – erst die Ionen machen die Lösung leitfähig." },
       { text: "Weil NaCl-Moleküle im Wasser schwimmen", correct: false, explanation: "NaCl bildet keine Moleküle, sondern dissoziiert in Na⁺- und Cl⁻-Ionen." },
       { text: "Weil Na⁺- und Cl⁻-Ionen frei beweglich sind", correct: true,  explanation: "Richtig! In Lösung dissoziiert NaCl in bewegliche Ionen → Ionenleitung." },
-      { text: "Weil NaCl-Atome Elektronen abgeben", correct: false, explanation: "Atome werden nicht im Wasser 'abgegeben' – es findet Dissoziation statt." }
+      { text: "Weil NaCl-Atome Elektronen abgeben", correct: false, explanation: "NaCl besteht aus Ionen (Na⁺ + Cl⁻), die durch Hydratation gelöst werden – nicht durch Elektronenabgabe. Die Ionen waren schon vorher da." }
     ]
   },
   {
@@ -127,7 +127,7 @@ export const QUIZ_DATA = [
     topic: 4,
     question: "Welche Kraft hält Na⁺ und Cl⁻ im Ionenkristall zusammen?",
     options: [
-      { text: "Magnetische Kraft", correct: false, explanation: "Magnete haben mit chemischen Bindungen nichts zu tun." },
+      { text: "Magnetische Kraft", correct: false, explanation: "Magnetismus entsteht durch Spin-Ausrichtung, nicht durch Ladungsunterschiede. Ionenbindung beruht auf elektrischen (Coulomb-) Kräften." },
       { text: "Elektrostatische Anziehung (Coulomb-Kraft)", correct: true,  explanation: "Richtig! Entgegengesetzt geladene Ionen ziehen sich elektrostatisch an – das ist die Coulomb-Kraft." },
       { text: "Kovalente Bindung", correct: false, explanation: "Kovalente Bindungen entstehen durch gemeinsame Elektronen, nicht bei Ionenverbindungen." },
       { text: "Metallbindung", correct: false, explanation: "Metallbindung beschreibt den Elektronen-See in Metallen – nicht in Salzgittern." }
@@ -316,7 +316,7 @@ export const QUIZ_DATA = [
       { text: "Die Anzahl der Protonen im Kern", correct: false, explanation: "Die Protonenzahl = Ordnungszahl. EN ist eine andere Größe." },
       { text: "Wie stark ein Atom die Elektronen einer Bindung zu sich hinzieht", correct: true,  explanation: "Richtig! EN nach Pauling: Die Fähigkeit eines Atoms, bindende Elektronen anzuziehen." },
       { text: "Die Energie, die bei einer Reaktion freigesetzt wird", correct: false, explanation: "Das wäre die Reaktionsenthalpie, nicht die Elektronegativität." },
-      { text: "Die Anzahl der Valenzelektronen", correct: false, explanation: "Valenzelektronen und EN sind verwandt, aber nicht dasselbe." }
+      { text: "Die Anzahl der Valenzelektronen", correct: false, explanation: "Valenzelektronen zählen (z.B. O hat 6 VE), EN misst Anziehungskraft (O: EN=3,5). Das sind zwei verschiedene Eigenschaften." }
     ]
   },
   {
