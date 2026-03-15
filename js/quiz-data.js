@@ -1,5 +1,5 @@
 /**
- * quiz-data.js – Alle 33 Quiz-Fragen (3 pro Thema)
+ * quiz-data.js – 39 Quiz-Fragen (3 pro Thema + 6 Bonus: Topics 3/5/6/7/8/11)
  * Format: { topic, question, options: [{text, correct, explanation}] }
  */
 
@@ -240,6 +240,30 @@ export const QUIZ_DATA = [
     ]
   },
 
+  // ─── TOPIC 6 Bonus ───
+  {
+    topic: 6,
+    question: "Welche Aussage zur Dreifachbindung in N₂ ist korrekt?",
+    options: [
+      { text: "N₂ hat 3 freie Elektronenpaare pro Atom", correct: false, explanation: "N hat 1 freies Elektronenpaar pro Atom und 3 Bindungselektronen." },
+      { text: "N₂ hat 3 gemeinsame Elektronenpaare (N≡N) – sehr stabile Verbindung", correct: true, explanation: "Richtig! Die Dreifachbindung macht N₂ extrem stabil (hohe Bindungsenergie ~945 kJ/mol) – darum ist N₂ so reaktionsträge." },
+      { text: "N₂ hat die gleiche Bindung wie H₂", correct: false, explanation: "H₂ hat eine Einfachbindung (1 EP), N₂ hat eine Dreifachbindung (3 EP)." },
+      { text: "In N₂ liegen Ionenbindungen vor", correct: false, explanation: "N₂ besteht aus zwei gleichen Nichtmetallen → keine Ionenübertragung." }
+    ]
+  },
+
+  // ─── TOPIC 7 Bonus ───
+  {
+    topic: 7,
+    question: "Was haben N₂, O₂ und CO₂ gemeinsam, das sie zu schlechten Leitern macht?",
+    options: [
+      { text: "Sie sind alle Gase bei Raumtemperatur", correct: false, explanation: "Der Aggregatzustand allein macht keine Substanz zum Leiter oder Nichtleiter." },
+      { text: "Alle Elektronen sind in kovalenten Bindungen oder als freie Paare fest gebunden – keine freien Ladungsträger", correct: true, explanation: "Richtig! Kovalente Moleküle haben keine freien Elektronen oder Ionen → schlechte elektrische Leitfähigkeit." },
+      { text: "Sie enthalten kein Natrium", correct: false, explanation: "Natrium ist für Leitfähigkeit nicht erforderlich." },
+      { text: "Sie sind zu leicht für Stromleitung", correct: false, explanation: "Die Masse hat keinen Einfluss auf elektrische Leitfähigkeit." }
+    ]
+  },
+
   // ─── TOPIC 5 Bonus ───
   {
     topic: 5,
@@ -390,7 +414,7 @@ export const QUIZ_DATA = [
       { text: "Nur zum Entsalzen von Meerwasser", correct: false, explanation: "Entsalzung nutzt meist Umkehrosmose, nicht Elektrolyse." },
       { text: "Zur Erzeugung von Kernenergie", correct: false, explanation: "Kernenergie kommt aus Kernspaltung/-fusion, nicht aus Elektrolyse." }
     ]
-  }
+  },
 
   // ─── TOPIC 11 Bonus ───
   {
