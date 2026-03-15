@@ -187,7 +187,11 @@ export function init(container, unlock) {
         <span class="badge badge-pink" style="flex:1; min-width:80px; text-align:center; padding:5px 6px; font-size:0.75rem; text-transform:none; letter-spacing:0">🔨 Spröde</span>
         <span class="badge badge-blue" style="flex:1; min-width:110px; text-align:center; padding:5px 6px; font-size:0.75rem; text-transform:none; letter-spacing:0">⚡ Leitet in Lösung/Schmelze</span>
       </div>
-      <p class="widget-hint">Tippe auf ein Ion, um die Coulomb-Kräfte zu den Nachbarn zu sehen · Tabs erklären alle 3 Eigenschaften</p>
+      <p class="widget-hint">Tippe auf ein Ion, um die Coulomb-Kräfte zu sehen · Tabs erklären alle 3 Eigenschaften</p>
+      <div style="margin-top:0.5rem; background:rgba(77,171,247,0.06); border:1px solid rgba(77,171,247,0.2); border-radius:8px; padding:0.5rem 0.75rem; font-size:0.8rem; color:var(--text-muted)">
+        <strong style="color:var(--blue)">Merkhilfe:</strong>
+        Jedes Ion wird von 6 Nachbarionen der entgegengesetzten Ladung umgeben (oktaedrisch). Je größer die Ladungsdifferenz und je kleiner der Abstand, desto stärker die Coulomb-Kraft!
+      </div>
     `;
   }
 

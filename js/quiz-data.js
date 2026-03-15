@@ -348,6 +348,18 @@ export const QUIZ_DATA = [
     ]
   },
 
+  // ─── TOPIC 8 Bonus ───
+  {
+    topic: 8,
+    question: "Warum leiten Metalle Wärme gut?",
+    options: [
+      { text: "Weil Metalle immer warm sind", correct: false, explanation: "Das ist keine Erklärung für die Wärmeleitfähigkeit." },
+      { text: "Weil freie Elektronen thermische Energie schnell durch das Gitter transportieren", correct: true, explanation: "Richtig! Dieselben freien Elektronen, die Strom leiten, transportieren auch Wärme effizient." },
+      { text: "Weil Metallatome besonders groß sind", correct: false, explanation: "Die Atomgröße ist nicht der Grund für die Wärmeleitfähigkeit." },
+      { text: "Weil Metalle keine Bindungen haben", correct: false, explanation: "Metalle haben starke metallische Bindungen – aber flexible dank des Elektronen-Sees." }
+    ]
+  },
+
   // ─── TOPIC 11: Elektrolyse ───
   {
     topic: 11,
@@ -377,6 +389,18 @@ export const QUIZ_DATA = [
       { text: "Zur Herstellung von Metallen (z.B. Al), Chlor, Wasserstoff und zur Galvanik", correct: true,  explanation: "Richtig! Elektrolyse wird industriell für Aluminiumherstellung, Chloralkali-Elektrolyse, Galvanisierung und Wasserelektrolyse genutzt." },
       { text: "Nur zum Entsalzen von Meerwasser", correct: false, explanation: "Entsalzung nutzt meist Umkehrosmose, nicht Elektrolyse." },
       { text: "Zur Erzeugung von Kernenergie", correct: false, explanation: "Kernenergie kommt aus Kernspaltung/-fusion, nicht aus Elektrolyse." }
+    ]
+  }
+
+  // ─── TOPIC 11 Bonus ───
+  {
+    topic: 11,
+    question: "An welcher Elektrode findet Oxidation statt?",
+    options: [
+      { text: "Kathode (Minuspol)", correct: false, explanation: "An der Kathode findet Reduktion statt (Elektronen-Aufnahme: GER)." },
+      { text: "Anode (Pluspol)", correct: true, explanation: "Richtig! An der Anode geben Anionen Elektronen ab → Oxidation (LEO = Loss of Electrons = Oxidation)." },
+      { text: "An beiden Elektroden gleich", correct: false, explanation: "Oxidation und Reduktion finden getrennt statt: Anode = Oxidation, Kathode = Reduktion." },
+      { text: "Nirgendwo – Elektrolyse ist kein Redoxprozess", correct: false, explanation: "Elektrolyse ist ein Redoxprozess: Übertragung von Elektronen über den äußeren Stromkreis." }
     ]
   }
 ];

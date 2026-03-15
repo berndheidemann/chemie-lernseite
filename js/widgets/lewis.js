@@ -115,10 +115,10 @@ export function init(container, unlock) {
       </div>
 
       ${checked ? `
-        <div class="quiz-feedback ${checkResult && checkResult.every(r => r === 'correct') ? 'correct' : 'wrong'}" style="text-align:center; margin-bottom:1rem">
+        <div class="quiz-feedback ${checkResult && checkResult.every(r => r === 'correct') ? 'correct' : 'wrong'}" style="text-align:center; margin-bottom:0.75rem">
           ${checkResult && checkResult.every(r => r === 'correct')
             ? '✅ Richtig! Das ist die korrekte Lewis-Schreibweise für ' + selectedElement + '!'
-            : '❌ Nicht ganz – rote Positionen sind falsch. Tipp: Erst alle 4 Seiten einzeln, dann aufgefüllt!'}
+            : '❌ Nicht ganz – rote Positionen sind falsch.<br><small>Tipp: Erst alle 4 Seiten je 1 Elektron → dann Paare auffüllen.</small>'}
         </div>
       ` : ''}
 
