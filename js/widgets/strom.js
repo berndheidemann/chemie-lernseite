@@ -42,9 +42,30 @@ export function init(container, unlock) {
   };
 
   const MODES = {
-    metal: { label: '⚡ Metall', desc: 'Freie Elektronen bewegen sich gerichtet → sehr guter Leiter' },
-    water: { label: '🧪 Salzwasser', desc: 'Na⁺ und Cl⁻ wandern in entgegengesetzte Richtungen → Ionenleitung' },
-    air:   { label: '💨 Luft', desc: 'Keine freien Ladungsträger → kein Strom fließt (Isolator)' }
+    metal: {
+      label: '⚡ Metall',
+      desc: 'Freie Elektronen (e⁻) bewegen sich gerichtet von − nach + → Elektronenleitung, sehr schnell.',
+      carrier: 'Elektronen (e⁻)',
+      speed: 'Sehr schnell',
+      type: 'Elektronenleitung',
+      example: 'Kupferdraht, Eisen'
+    },
+    water: {
+      label: '🧪 Salzwasser',
+      desc: 'Na⁺-Ionen wandern zur Kathode (−), Cl⁻-Ionen zur Anode (+) → Ionenleitung, langsamer.',
+      carrier: 'Ionen (Na⁺, Cl⁻)',
+      speed: 'Langsam',
+      type: 'Ionenleitung',
+      example: 'NaCl-Lösung, Blut'
+    },
+    air: {
+      label: '💨 Luft',
+      desc: 'Alle Elektronen sind in kovalenten Bindungen fest gebunden → keine freien Ladungsträger → kein Strom!',
+      carrier: 'Keine',
+      speed: '—',
+      type: 'Isolator',
+      example: 'Luft, Glas, Kunststoff'
+    }
   };
 
   let canvas, ctx, canvasW, canvasH;
@@ -88,8 +109,15 @@ export function init(container, unlock) {
         </label>
       </div>
 
-      <div id="strom-desc" style="background:rgba(255,255,255,0.04); border-radius:8px; padding:0.6rem 0.75rem; font-size:0.88rem; color:var(--text-muted)">
-        ${circuitOn ? MODES[activeMode].desc : '🔌 Stromkreis offen – keine Ladungsträger in Bewegung.'}
+      <div id="strom-desc" style="background:rgba(255,255,255,0.04); border-radius:8px; padding:0.6rem 0.75rem; font-size:0.88rem;">
+        ${circuitOn ? `
+          <div style="color:var(--text); margin-bottom:0.35rem">${MODES[activeMode].desc}</div>
+          <div style="display:flex; gap:0.4rem; flex-wrap:wrap; font-size:0.78rem">
+            <span class="badge badge-blue">Träger: ${MODES[activeMode].carrier}</span>
+            <span class="badge badge-amber">Typ: ${MODES[activeMode].type}</span>
+            <span class="badge badge-green">Beispiel: ${MODES[activeMode].example}</span>
+          </div>
+        ` : '<span style="color:var(--text-muted)">🔌 Stromkreis offen – keine Ladungsträger in Bewegung.</span>'}
       </div>
 
       <p class="widget-hint">Probiere alle 3 Modi aus, um die Erklärung freizuschalten!</p>
