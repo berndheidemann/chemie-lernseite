@@ -221,6 +221,18 @@ shakeStyle.textContent = `
 `;
 document.head.appendChild(shakeStyle);
 
+// ── Reset Progress ───────────────────────────────────────
+function setupResetButton() {
+  const btn = document.getElementById('reset-progress-btn');
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    if (confirm('Gesamten Fortschritt zurücksetzen? Alle freigeschalteten Themen werden zurückgesetzt.')) {
+      localStorage.removeItem('chem-unlocked');
+      location.reload();
+    }
+  });
+}
+
 // ── Boot ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   lockExpCards();
@@ -228,4 +240,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initWidgets();
   initQuizzes();
   setupNavObserver();
+  setupResetButton();
 });

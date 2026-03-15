@@ -100,6 +100,18 @@ export const QUIZ_DATA = [
     ]
   },
 
+  // ─── TOPIC 3 Bonus ───
+  {
+    topic: 3,
+    question: "Was ist der Unterschied zwischen Elektronen- und Ionenleitung?",
+    options: [
+      { text: "Elektronen- und Ionenleitung sind dasselbe", correct: false, explanation: "Nein – die Ladungsträger und Mechanismen sind grundlegend verschieden." },
+      { text: "Elektronenleitung: freie Elektronen im Metall; Ionenleitung: geladene Ionen in Lösungen/Schmelzen", correct: true, explanation: "Richtig! Im Metall transportieren freie Elektronen die Ladung; in Elektrolytlösungen tun dies bewegliche Ionen." },
+      { text: "Ionenleitung findet nur in Metallen statt", correct: false, explanation: "Ionenleitung findet in Salzlösungen und Schmelzen statt, nicht in Metallen." },
+      { text: "Elektronenleitung ist langsamer als Ionenleitung", correct: false, explanation: "Elektronen sind viel leichter und schneller als Ionen – Metalle leiten daher besser." }
+    ]
+  },
+
   // ─── TOPIC 4: Ionenbildung ───
   {
     topic: 4,
@@ -225,6 +237,18 @@ export const QUIZ_DATA = [
       { text: "Doppelbindung", correct: false, explanation: "Doppelbindung (2 EP) wäre z.B. O₂ oder CO₂." },
       { text: "Dreifachbindung (N≡N)", correct: true,  explanation: "Richtig! N hat 5 Valenzelektronen: 1 freies Paar + 3 Radikalelektronen → 3 gemeinsame EP → N≡N." },
       { text: "Ionenbindung", correct: false, explanation: "N₂ besteht aus zwei gleichen Nichtmetallatomen → keine Ionenübertragung möglich." }
+    ]
+  },
+
+  // ─── TOPIC 5 Bonus ───
+  {
+    topic: 5,
+    question: "Warum löst sich Kochsalz (NaCl) in Wasser?",
+    options: [
+      { text: "Weil Wasser ein Metall ist", correct: false, explanation: "Wasser ist keine metallische Substanz – es ist ein polares Molekül." },
+      { text: "Weil polare Wassermoleküle die Ionen aus dem Gitter herauslösen (Hydratation)", correct: true, explanation: "Richtig! Wassermoleküle (δ+ und δ−) umhüllen die Ionen, überwinden die Gitterkräfte und lösen die Ionen heraus (Hydratation / Dissoziation)." },
+      { text: "Weil NaCl keine starken Bindungen hat", correct: false, explanation: "NaCl hat eigentlich sehr starke Ionenbindungen – aber polare Lösungsmittel wie Wasser können sie überwinden." },
+      { text: "Weil Kationen und Anionen gleich groß sind", correct: false, explanation: "Die Ionengröße ist nicht der Hauptgrund für die Löslichkeit in Wasser." }
     ]
   },
 
