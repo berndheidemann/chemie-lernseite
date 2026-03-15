@@ -242,26 +242,42 @@ function setupNavObserver() {
 
   sections.forEach(s => visibilityObserver.observe(s));
 
-  // Active pill tracking
+  // Suppress observer updates while a pill-click scroll is in progress
+  let scrollLock = false;
+  let scrollLockTimer = null;
+
+  function setActivePill(pill) {
+    pills.forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    // Scroll pill into view horizontally within pill-nav only
+    const nav = document.getElementById('pill-nav');
+    if (nav) {
+      const navRect = nav.getBoundingClientRect();
+      const pillRect = pill.getBoundingClientRect();
+      const target = nav.scrollLeft + pillRect.left - navRect.left - (navRect.width - pillRect.width) / 2;
+      nav.scrollTo({ left: target, behavior: 'smooth' });
+    }
+  }
+
+  // On pill click: immediately highlight + lock observer for scroll duration
+  pills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      setActivePill(pill);
+      scrollLock = true;
+      clearTimeout(scrollLockTimer);
+      scrollLockTimer = setTimeout(() => { scrollLock = false; }, 1200);
+    });
+  });
+
+  // Active pill tracking while scrolling manually
   const activeObserver = new IntersectionObserver((entries) => {
+    if (scrollLock) return;
     entries.forEach(e => {
       const id = e.target.id; // e.g. "topic-3"
       const topicNum = parseInt(id.split('-')[1]);
       const pill = document.querySelector(`.pill[data-topic="${topicNum}"]`);
       if (!pill) return;
-
-      if (e.isIntersecting) {
-        pills.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-        // Scroll pill into view horizontally within pill-nav only (avoid interrupting page scroll)
-        const nav = document.getElementById('pill-nav');
-        if (nav) {
-          const navRect = nav.getBoundingClientRect();
-          const pillRect = pill.getBoundingClientRect();
-          const target = nav.scrollLeft + pillRect.left - navRect.left - (navRect.width - pillRect.width) / 2;
-          nav.scrollTo({ left: target, behavior: 'smooth' });
-        }
-      }
+      if (e.isIntersecting) setActivePill(pill);
     });
   }, { rootMargin: '-20% 0px -70% 0px' });
 
