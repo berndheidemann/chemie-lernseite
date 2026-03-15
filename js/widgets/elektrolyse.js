@@ -96,11 +96,25 @@ export function init(container, unlock) {
 
       <!-- Reactions -->
       <div class="formula-box" style="font-size:0.8rem">
-        Kathode: 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻ &nbsp;&nbsp;(Reduktion)<br>
-        Anode:   2 Cl⁻ → Cl₂ + 2 e⁻ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Oxidation)
+        <span style="color:var(--blue)">Kathode (−):</span> 2 H₂O + 2 e⁻ → H₂↑ + 2 OH⁻ &nbsp;<span style="color:var(--green)">GER = Reduktion</span><br>
+        <span style="color:var(--pink)">Anode (+):</span>&nbsp;&nbsp; 2 Cl⁻ → Cl₂↑ + 2 e⁻ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--amber)">LEO = Oxidation</span>
       </div>
 
-      <p class="widget-hint">LEO sagt GER: Elektronen-Abgabe = Oxidation | Elektronen-Aufnahme = Reduktion</p>
+      <!-- LEO/GER Merkhilfe -->
+      <div style="display:flex; gap:0.5rem; margin-top:0.5rem; flex-wrap:wrap">
+        <div style="flex:1; min-width:130px; background:rgba(255,212,59,0.08); border:1px solid rgba(255,212,59,0.25); border-radius:8px; padding:0.4rem 0.6rem; text-align:center; font-size:0.8rem">
+          <span style="color:var(--amber); font-weight:700">LEO</span><br>
+          <span style="color:var(--text-muted)">Loss of Electrons</span><br>
+          <span style="color:var(--amber)">=&nbsp;Oxidation</span>
+        </div>
+        <div style="flex:1; min-width:130px; background:rgba(81,207,102,0.08); border:1px solid rgba(81,207,102,0.25); border-radius:8px; padding:0.4rem 0.6rem; text-align:center; font-size:0.8rem">
+          <span style="color:var(--green); font-weight:700">GER</span><br>
+          <span style="color:var(--text-muted)">Gain of Electrons</span><br>
+          <span style="color:var(--green)">=&nbsp;Reduktion</span>
+        </div>
+      </div>
+
+      <p class="widget-hint">Schalte den Strom ein und beobachte die Ionen-Wanderung und Gasblasen!</p>
     `;
 
     canvas = container.querySelector('#elyse-canvas');
