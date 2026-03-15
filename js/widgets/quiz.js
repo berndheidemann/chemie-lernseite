@@ -218,7 +218,6 @@ export function init(container, questions, topicId) {
     // Events – use shuffled index
     container.querySelectorAll('.quiz-option:not([disabled])').forEach(btn => {
       btn.addEventListener('click', () => handleAnswer(btn));
-      btn.addEventListener('touchend', e => { e.preventDefault(); handleAnswer(btn); });
     });
 
     // Keyboard shortcuts: A/B/C/D or 1/2/3/4 — only when THIS container is in viewport

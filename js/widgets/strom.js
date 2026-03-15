@@ -143,7 +143,6 @@ export function init(container, unlock) {
         buildUI();
         startAnimation();
       });
-      btn.addEventListener('touchend', e => { e.preventDefault(); btn.click(); });
     });
 
     container.querySelector('#strom-switch')?.addEventListener('change', e => {

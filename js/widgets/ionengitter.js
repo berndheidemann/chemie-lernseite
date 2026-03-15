@@ -84,7 +84,6 @@ export function init(container, unlock) {
         render();
       };
       btn.addEventListener('click', handler);
-      btn.addEventListener('touchend', e => { e.preventDefault(); handler(); });
     });
 
     bindTabEvents();
@@ -339,7 +338,6 @@ export function init(container, unlock) {
         render();
       };
       ion.addEventListener('click', handler);
-      ion.addEventListener('touchend', e => { e.preventDefault(); handler(); });
     });
 
     // Schmelz: melt toggle

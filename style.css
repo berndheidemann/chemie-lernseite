@@ -606,6 +606,16 @@ canvas {
   display: block;
   max-width: 100%;
   border-radius: var(--radius-sm);
+  touch-action: pan-y; /* Allow vertical scroll through canvas on touch devices */
+}
+
+/* Widget interactive elements: fast tap, no scroll interference */
+.widget-card button,
+.widget-card select,
+.widget-card label,
+.quiz-card button,
+.quiz-card label {
+  touch-action: manipulation;
 }
 
 /* ── SVG Atoms / Particles ── */
