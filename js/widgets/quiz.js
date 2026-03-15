@@ -55,7 +55,7 @@ export function init(container, questions, topicId) {
         ${allAnswered() ? `<button class="btn btn-green" id="quiz-reset-${topicId}">↺ Nochmal</button>` : ''}
       </div>
       <div style="text-align:center; font-size:0.72rem; color:var(--text-muted); margin-top:0.35rem; opacity:0.6">
-        Tastatur: A/B/C/D oder 1/2/3/4 · ← → navigieren
+        Tastatur: A/B/C/D oder 1/2/3/4 zum Antworten
       </div>
     `;
 
@@ -79,20 +79,19 @@ export function init(container, questions, topicId) {
       btn.addEventListener('touchend', e => { e.preventDefault(); handleAnswer(btn); });
     });
 
-    // Keyboard shortcuts: A/B/C/D or 1/2/3/4, ArrowLeft/Right for nav — remove old handler first
+    // Keyboard shortcuts: A/B/C/D or 1/2/3/4 — only when THIS container is in viewport
     if (container._quizKeyHandler) document.removeEventListener('keydown', container._quizKeyHandler);
     const keyHandler = (e) => {
+      // Ignore if container not visible in viewport
+      const rect = container.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.2;
+      if (!inView) return;
+
       const keyMap = { a: 0, b: 1, c: 2, d: 3, '1': 0, '2': 1, '3': 2, '4': 3 };
       const idx = keyMap[e.key.toLowerCase()];
       if (idx !== undefined && answered[currentIndex] === null) {
         const opts = container.querySelectorAll('.quiz-option:not([disabled])');
         if (opts[idx]) handleAnswer(opts[idx]);
-      } else if (e.key === 'ArrowRight' && currentIndex < questions.length - 1) {
-        currentIndex++;
-        render();
-      } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
-        currentIndex--;
-        render();
       }
     };
     container._quizKeyHandler = keyHandler;
