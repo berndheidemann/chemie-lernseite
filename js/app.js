@@ -132,21 +132,39 @@ function initWidgets() {
   // Widget 7 shares EPB widget – shows link, unlocked when widget-6 is used
   const w7 = document.getElementById('widget-7');
   if (w7) {
-    w7.innerHTML = `<div style="padding:1rem;text-align:center;color:var(--text-muted)">
-      <p>Dieses Thema baut auf dem EPB-Widget auf.</p>
-      <p>👆 Schaue dir im <a href="#topic-6" style="color:var(--blue)">EPB-Widget (Thema 6)</a> die Moleküle N₂ und O₂ als Beispiele an!</p>
-      <p style="margin-top:0.5rem; font-size:0.85rem">Wähle N₂ oder O₂ → "Zusammenschieben" → Erklärung freigeschaltet!</p>
-    </div>`;
+    w7.innerHTML = `
+      <div style="padding:1rem; text-align:center">
+        <div style="font-size:1.5rem; margin-bottom:0.5rem">🌬️</div>
+        <p style="font-weight:600; color:var(--text); margin-bottom:0.5rem">Luft als Isolator – EPB in Aktion</p>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0.75rem">
+          Dieses Thema baut auf dem EPB-Widget auf. Untersuche N₂ und O₂ dort!
+        </p>
+        <a href="#topic-6" class="btn btn-secondary" style="font-size:0.85rem; text-decoration:none">
+          👆 Zum EPB-Widget (Thema 6)
+        </a>
+        <p style="margin-top:0.75rem; font-size:0.82rem; color:var(--text-muted)">
+          Wähle N₂ oder O₂ → "Zusammenschieben" → Erklärung wird freigeschaltet!
+        </p>
+      </div>`;
   }
 
   // Widget 10 shares EN-Rechner from widget-9
   const w10 = document.getElementById('widget-10');
   if (w10) {
-    w10.innerHTML = `<div style="padding:1rem;text-align:center;color:var(--text-muted)">
-      <p>Dieses Thema baut auf dem EN-Rechner auf.</p>
-      <p>👆 Nutze den <a href="#topic-9" style="color:var(--blue)">EN-Rechner (Thema 9)</a> und berechne ΔEN zwischen zwei Elementen!</p>
-      <p style="margin-top:0.5rem; font-size:0.85rem">Probiere z.B. Na + Cl oder H + Cl für verschiedene Bindungstypen.</p>
-    </div>`;
+    w10.innerHTML = `
+      <div style="padding:1rem; text-align:center">
+        <div style="font-size:1.5rem; margin-bottom:0.5rem">⚖️</div>
+        <p style="font-weight:600; color:var(--text); margin-bottom:0.5rem">ΔEN und Bindungstypen</p>
+        <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:0.75rem">
+          Nutze den EN-Rechner aus Thema 9, um verschiedene Bindungstypen zu bestimmen!
+        </p>
+        <a href="#topic-9" class="btn btn-secondary" style="font-size:0.85rem; text-decoration:none">
+          👆 Zum EN-Rechner (Thema 9)
+        </a>
+        <p style="margin-top:0.75rem; font-size:0.82rem; color:var(--text-muted)">
+          Probiere: Na+Cl (Ionenbindung), H+Cl (polare Bindung), H+H (unpolar)
+        </p>
+      </div>`;
   }
 }
 

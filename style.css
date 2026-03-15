@@ -639,6 +639,13 @@ canvas {
   transform: none;
 }
 
+/* ── Reset button hover ── */
+#reset-progress-btn:hover {
+  background: rgba(247,80,80,0.12) !important;
+  border-color: rgba(247,80,80,0.4) !important;
+  color: #f75050 !important;
+}
+
 /* ── Responsive Adjustments ── */
 @media (max-width: 600px) {
   .exp-cell.label {
@@ -650,7 +657,8 @@ canvas {
   .exp-cell.label { flex: 1; border-bottom: 1px solid rgba(255,255,255,0.06); }
 
   .header-inner { gap: 0.5rem; }
-  .progress-bar-wrap { width: 100%; }
+  .progress-bar-wrap { width: 100%; order: 3; }
+  #reset-progress-btn { order: 2; }
 }
 
 @media (min-width: 601px) {

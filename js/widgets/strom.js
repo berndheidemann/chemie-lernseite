@@ -88,8 +88,8 @@ export function init(container, unlock) {
         </label>
       </div>
 
-      <div style="background:rgba(255,255,255,0.04); border-radius:8px; padding:0.6rem 0.75rem; font-size:0.88rem; color:var(--text-muted)">
-        ${MODES[activeMode].desc}
+      <div id="strom-desc" style="background:rgba(255,255,255,0.04); border-radius:8px; padding:0.6rem 0.75rem; font-size:0.88rem; color:var(--text-muted)">
+        ${circuitOn ? MODES[activeMode].desc : '🔌 Stromkreis offen – keine Ladungsträger in Bewegung.'}
       </div>
 
       <p class="widget-hint">Probiere alle 3 Modi aus, um die Erklärung freizuschalten!</p>
@@ -120,6 +120,8 @@ export function init(container, unlock) {
 
     container.querySelector('#strom-switch')?.addEventListener('change', e => {
       circuitOn = e.target.checked;
+      const desc = document.getElementById('strom-desc');
+      if (desc) desc.textContent = circuitOn ? MODES[activeMode].desc : '🔌 Stromkreis offen – keine Ladungsträger in Bewegung.';
     });
 
     seen.add(activeMode);
