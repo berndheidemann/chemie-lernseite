@@ -679,3 +679,99 @@ canvas {
   background: rgba(77,171,247,0.3);
   color: var(--text);
 }
+
+/* ── Print CSS – Lernzettel-Modus ── */
+@media print {
+  :root {
+    --bg:       #fff;
+    --bg-card:  #f9f9f9;
+    --bg-exp:   #f0faf2;
+    --bg-quiz:  #f5f0ff;
+    --text:     #111;
+    --text-muted: #555;
+    --border:   #ddd;
+    --blue:     #1565c0;
+    --green:    #2e7d32;
+    --amber:    #f57f17;
+    --pink:     #c62828;
+    --purple:   #6a1b9a;
+  }
+
+  body {
+    background: #fff;
+    color: #111;
+    font-size: 11pt;
+  }
+
+  .site-header,
+  .pill-nav,
+  .widget-card,
+  .quiz-card,
+  .topic-nav-buttons,
+  #reset-progress-btn {
+    display: none !important;
+  }
+
+  .topic-section {
+    page-break-inside: avoid;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1rem;
+  }
+
+  .exp-card {
+    display: block !important;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    padding: 0.75rem;
+    background: #f0faf2;
+  }
+
+  .exp-card summary { display: none; }
+
+  .exp-body { display: block !important; }
+
+  details.exp-card > div { display: block !important; }
+
+  .card-label { display: none; }
+
+  h1, h2, h3 { color: #111 !important; page-break-after: avoid; }
+
+  strong { color: #c55000 !important; }
+
+  a { color: #111 !important; text-decoration: none; }
+
+  .formula-box {
+    background: #fff8e6;
+    border: 1px solid #e0c060;
+    color: #333;
+    font-family: 'Courier New', monospace;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+
+  .badge {
+    border: 1px solid currentColor;
+    background: transparent;
+  }
+
+  .topic-number {
+    color: #1565c0;
+    background: #e3f0ff;
+    border: 1px solid #1565c0;
+  }
+
+  /* Print header */
+  main::before {
+    content: "Chemie Klasse 10 – Lernzettel: Chemische Bindungen & Elektrochemie";
+    display: block;
+    font-size: 14pt;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
