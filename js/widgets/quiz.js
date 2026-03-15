@@ -7,10 +7,35 @@
  * @param {Array} questions - Array von Quiz-Fragen (aus quiz-data.js)
  * @param {number} topicId - Thema-ID (für CSS-Klassen etc.)
  */
+// Inject flip-card CSS once
+if (!document.getElementById('lernkarten-style')) {
+  const s = document.createElement('style');
+  s.id = 'lernkarten-style';
+  s.textContent = `
+    .lernkarte-wrap { perspective: 800px; width:100%; margin-bottom:1rem; cursor:pointer; }
+    .lernkarte { position:relative; width:100%; min-height:140px; transition:transform 0.5s ease; transform-style:preserve-3d; }
+    .lernkarte.flipped { transform:rotateY(180deg); }
+    .lernkarte-front, .lernkarte-back {
+      position:absolute; width:100%; min-height:140px; backface-visibility:hidden;
+      border-radius:10px; padding:1rem 1.25rem;
+      display:flex; flex-direction:column; justify-content:center; align-items:center;
+      text-align:center;
+    }
+    .lernkarte-front { background:var(--bg-card); border:1px solid rgba(77,171,247,0.3); }
+    .lernkarte-back  { background:rgba(11,50,30,0.95); border:1px solid rgba(81,207,102,0.4); transform:rotateY(180deg); }
+  `;
+  document.head.appendChild(s);
+}
+
 export function init(container, questions, topicId) {
   if (!questions || questions.length === 0) return;
 
   let currentIndex = 0;
+  let quizMode = 'quiz'; // 'quiz' | 'lernkarten'
+  let cardFlipped = false;
+  let lernkartenIndex = 0;
+  const lernkartenStatus = new Array(questions.length).fill(null); // null | 'knew' | 'repeat'
+
   const answered = new Array(questions.length).fill(null); // null | 'correct' | 'wrong'
 
   // Shuffle answer options once per session (stable during quiz, changes on reset)
@@ -24,8 +49,96 @@ export function init(container, questions, topicId) {
   }
   let shuffledOrders = questions.map(q => shuffleArray(q.options.map((_, i) => i)));
 
+  // ── Lernkarten Mode ─────────────────────────────────
+  function renderLernkarten() {
+    const q = questions[lernkartenIndex];
+    const knew  = lernkartenStatus.filter(s => s === 'knew').length;
+    const total = questions.length;
+    const allDone = lernkartenStatus.every(s => s !== null);
+
+    container.innerHTML = `
+      <div style="display:flex; gap:0.4rem; margin-bottom:0.75rem; align-items:center">
+        <button class="btn btn-secondary" id="mode-quiz" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+          📝 Quiz
+        </button>
+        <button class="btn btn-amber" id="mode-lk" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+          🃏 Lernkarten
+        </button>
+        <span style="font-size:0.72rem; color:var(--text-muted); margin-left:auto">${lernkartenIndex + 1}/${total} · ✓ ${knew}</span>
+      </div>
+
+      ${allDone ? `
+        <div style="text-align:center; padding:1rem; background:rgba(81,207,102,0.1); border-radius:8px; color:var(--green); font-size:0.9rem; margin-bottom:0.75rem">
+          🏆 Alle ${total} Karten durchgegangen! Gewusst: ${knew}/${total}
+        </div>
+        <button class="btn btn-secondary" id="lk-reset" style="width:100%">↺ Nochmal von vorne</button>
+      ` : `
+        <div class="lernkarte-wrap" id="lk-wrap">
+          <div class="lernkarte${cardFlipped ? ' flipped' : ''}" id="lk-card">
+            <div class="lernkarte-front">
+              <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.5rem">Frage ${lernkartenIndex + 1}</div>
+              <div style="font-size:0.95rem; font-weight:600; color:var(--text)">${q.question}</div>
+              <div style="font-size:0.78rem; color:var(--text-muted); margin-top:0.75rem">👆 Tippe zum Aufdecken</div>
+            </div>
+            <div class="lernkarte-back">
+              <div style="font-size:0.78rem; color:var(--green); margin-bottom:0.4rem; font-weight:700">✅ Antwort:</div>
+              <div style="font-size:0.9rem; color:var(--text); font-weight:600; margin-bottom:0.5rem">
+                ${q.options.find(o => o.correct)?.text || ''}
+              </div>
+              <div style="font-size:0.8rem; color:var(--text-muted)">
+                ${q.options.find(o => o.correct)?.explanation || ''}
+              </div>
+            </div>
+          </div>
+        </div>
+        ${cardFlipped ? `
+          <div style="display:flex; gap:0.5rem; justify-content:center">
+            <button class="btn btn-green" id="lk-knew" style="flex:1">✓ Gewusst</button>
+            <button class="btn btn-secondary" id="lk-repeat" style="flex:1">↺ Wiederholen</button>
+          </div>
+        ` : ''}
+      `}
+      <p class="widget-hint" style="margin-top:0.75rem">Lernkarten: Decke die Antwort auf und bewerte dein Wissen.</p>
+    `;
+
+    document.getElementById('mode-quiz')?.addEventListener('click', () => { quizMode = 'quiz'; render(); });
+    document.getElementById('mode-lk')?.addEventListener('click',   () => { quizMode = 'lernkarten'; renderLernkarten(); });
+
+    const wrap = document.getElementById('lk-wrap');
+    if (wrap && !allDone) {
+      wrap.addEventListener('click', () => {
+        cardFlipped = !cardFlipped;
+        renderLernkarten();
+      });
+    }
+
+    document.getElementById('lk-knew')?.addEventListener('click', e => {
+      e.stopPropagation();
+      lernkartenStatus[lernkartenIndex] = 'knew';
+      lernkartenIndex = Math.min(lernkartenIndex + 1, total - 1);
+      cardFlipped = false;
+      renderLernkarten();
+    });
+
+    document.getElementById('lk-repeat')?.addEventListener('click', e => {
+      e.stopPropagation();
+      lernkartenStatus[lernkartenIndex] = 'repeat';
+      lernkartenIndex = Math.min(lernkartenIndex + 1, total - 1);
+      cardFlipped = false;
+      renderLernkarten();
+    });
+
+    document.getElementById('lk-reset')?.addEventListener('click', () => {
+      lernkartenIndex = 0;
+      cardFlipped = false;
+      lernkartenStatus.fill(null);
+      renderLernkarten();
+    });
+  }
+
   // ── Render ──────────────────────────────────────────
   function render() {
+    if (quizMode === 'lernkarten') { renderLernkarten(); return; }
     const q = questions[currentIndex];
     const isAnswered = answered[currentIndex] !== null;
 
@@ -33,6 +146,14 @@ export function init(container, questions, topicId) {
     const answeredSoFar = answered.filter(a => a !== null).length;
 
     container.innerHTML = `
+      <div style="display:flex; gap:0.4rem; margin-bottom:0.6rem">
+        <button class="btn btn-amber" id="mode-quiz" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+          📝 Quiz
+        </button>
+        <button class="btn btn-secondary" id="mode-lk" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+          🃏 Lernkarten
+        </button>
+      </div>
       <div class="quiz-progress" style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap">
         <div style="display:flex; gap:0.4rem; align-items:center">
           ${questions.map((_, i) => {
@@ -89,6 +210,10 @@ export function init(container, questions, topicId) {
         Tastatur: A/B/C/D oder 1/2/3/4 zum Antworten
       </div>
     `;
+
+    // Mode toggles
+    container.querySelector('#mode-quiz')?.addEventListener('click', () => { quizMode = 'quiz'; render(); });
+    container.querySelector('#mode-lk')?.addEventListener('click',   () => { quizMode = 'lernkarten'; renderLernkarten(); });
 
     // Events – use shuffled index
     container.querySelectorAll('.quiz-option:not([disabled])').forEach(btn => {
