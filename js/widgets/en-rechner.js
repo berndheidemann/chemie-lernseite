@@ -140,6 +140,8 @@ export function init(container, unlock) {
           'Cl-Na':{ calc: 'EN Na = 0,9 ; EN Cl = 3,0 → ΔEN = 3,0 − 0,9 = 2,1', result: 'Da ΔEN > 1,7 → Ionenbindung (NaCl)', color: 'var(--pink)' },
           'Cl-H': { calc: 'EN H = 2,1 ; EN Cl = 3,0 → ΔEN = 3,0 − 2,1 = 0,9', result: '0 < ΔEN < 1,7 → Polare Bindung (HCl)', color: 'var(--amber)' },
           'H-H':  { calc: 'EN H = 2,1 ; EN H = 2,1 → ΔEN = 2,1 − 2,1 = 0', result: 'ΔEN = 0 → Unpolare Bindung (H₂)', color: 'var(--green)' },
+          'H-O':  { calc: 'EN H = 2,1 ; EN O = 3,5 → ΔEN = 3,5 − 2,1 = 1,4', result: '0 < ΔEN < 1,7 → Polare Bindung (H₂O) → Wasserstoffbrücken möglich!', color: 'var(--amber)' },
+          'Ca-O': { calc: 'EN Ca = 1,0 ; EN O = 3,5 → ΔEN = 3,5 − 1,0 = 2,5', result: 'ΔEN > 1,7 → Ionenbindung (CaO)', color: 'var(--pink)' },
         };
         const n = notes[pair];
         if (!n) return '';
@@ -154,7 +156,7 @@ export function init(container, unlock) {
       <div style="margin-bottom:0.75rem">
         <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem">Schnellbeispiele:</div>
         <div style="display:flex; gap:0.4rem; flex-wrap:wrap">
-          ${[['Na','Cl','NaCl'],['K','F','KF'],['H','Cl','HCl'],['H','H','H₂'],['O','O','O₂'],['N','O','NO']].map(([a,b,label]) =>
+          ${[['Na','Cl','NaCl'],['K','F','KF'],['H','Cl','HCl'],['H','O','H₂O'],['H','H','H₂'],['O','O','O₂'],['N','O','NO'],['Ca','O','CaO']].map(([a,b,label]) =>
             `<button class="btn btn-secondary" data-qa="${a}" data-qb="${b}" style="font-size:0.78rem; padding:3px 10px; min-height:30px; font-family:monospace">${label}</button>`
           ).join('')}
         </div>
