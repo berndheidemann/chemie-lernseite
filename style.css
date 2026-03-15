@@ -145,16 +145,14 @@ a:hover { text-decoration: underline; }
   background: rgba(11,17,32,0.9);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--border);
-  /* No overflow here – avoids implicit overflow-y:hidden clipping pills on iOS */
-}
-
-.pill-nav-inner {
   overflow-x: auto;
+  overflow-y: visible; /* iOS: prevent pills being clipped at top */
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
+  padding-top: 2px; /* extra space so pill borders/shadows aren't clipped */
 }
 
-.pill-nav-inner::-webkit-scrollbar { display: none; }
+.pill-nav::-webkit-scrollbar { display: none; }
 
 /* Fade edges to indicate scroll-ability */
 .pill-nav::before,
@@ -187,7 +185,6 @@ a:hover { text-decoration: underline; }
   padding: 0.6rem 1rem;
   width: max-content;
   min-width: 100%;
-  /* scroll container moved here from .pill-nav (see above) */
 }
 
 .pill {
