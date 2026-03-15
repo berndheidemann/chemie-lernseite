@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemie Klasse 10 – Interaktives Lernen</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-title">
+        <span class="header-icon">⚗️</span>
+        <div>
+          <h1>Chemie Klasse 10</h1>
+          <p class="header-sub">Chemische Bindungen &amp; Elektrochemie</p>
+        </div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-label">Fortschritt: <span id="progress-count">0</span>/11</div>
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STICKY NAV -->
+  <nav class="pill-nav" id="pill-nav">
+    <div class="pill-nav-inner">
+      <a href="#topic-1" class="pill" data-topic="1">1 · Atom &amp; Ion</a>
+      <a href="#topic-2" class="pill" data-topic="2">2 · Lewis</a>
+      <a href="#topic-3" class="pill" data-topic="3">3 · el. Strom</a>
+      <a href="#topic-4" class="pill" data-topic="4">4 · Ionenbildung</a>
+      <a href="#topic-5" class="pill" data-topic="5">5 · Ionengitter</a>
+      <a href="#topic-6" class="pill" data-topic="6">6 · EPB</a>
+      <a href="#topic-7" class="pill" data-topic="7">7 · Luft &amp; EPB</a>
+      <a href="#topic-8" class="pill" data-topic="8">8 · Metallbindung</a>
+      <a href="#topic-9" class="pill" data-topic="9">9 · EN</a>
+      <a href="#topic-10" class="pill" data-topic="10">10 · ΔEN</a>
+      <a href="#topic-11" class="pill" data-topic="11">11 · Elektrolyse</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+
+    <!-- ─────────── TOPIC 1: Atom, Ion, Kation, Anion ─────────── -->
+    <section class="topic-section" id="topic-1">
+      <div class="topic-header">
+        <span class="topic-number">01</span>
+        <h2>Atom, Ion, Kation &amp; Anion</h2>
+      </div>
+
+      <!-- Widget -->
+      <div class="card widget-card" id="widget-1">
+        <div class="card-label">Interaktiv</div>
+        <!-- atom-ion.js füllt diesen Container -->
+      </div>
+
+      <!-- Erklärung (gesperrt bis unlock) -->
+      <details class="card exp-card" id="exp-1">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-1">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Atom, Ion, Kation, Anion</h3>
+          <p>Ein <strong>Atom</strong> ist elektrisch neutral – die Anzahl der Protonen im Kern entspricht der Anzahl der Elektronen in der Hülle.</p>
+          <p>Gibt ein Atom ein oder mehrere Elektronen ab, entsteht ein positiv geladenes <strong>Kation</strong>. Nimmt es Elektronen auf, entsteht ein negativ geladenes <strong>Anion</strong>. Beide bezeichnet man zusammenfassend als <strong>Ionen</strong>.</p>
+          <div class="formula-box">
+            Na → Na⁺ + e⁻ &nbsp;&nbsp;(Natrium gibt ein Elektron ab → Kation)<br>
+            Cl + e⁻ → Cl⁻ &nbsp;&nbsp;(Chlor nimmt ein Elektron auf → Anion)
+          </div>
+          <p>Atome streben nach dem Edelgaszustand (Oktettregel): 8 Elektronen in der Außenschale machen sie besonders stabil.</p>
+        </div>
+      </details>
+
+      <!-- Quiz -->
+      <div class="card quiz-card" id="quiz-1">
+        <div class="card-label quiz-label">Quiz</div>
+        <!-- quiz.js füllt diesen Container -->
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 2: Lewis-Schreibweise ─────────── -->
+    <section class="topic-section" id="topic-2">
+      <div class="topic-header">
+        <span class="topic-number">02</span>
+        <h2>Lewis-Schreibweise</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-2">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-2">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-2">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Lewis-Schreibweise</h3>
+          <p>Die <strong>Lewis-Schreibweise</strong> (Elektronenpunktformel) zeigt alle Valenzelektronen eines Atoms als Punkte um das Elementsymbol.</p>
+          <p>Regeln:</p>
+          <ul>
+            <li>Die Anzahl der Punkte entspricht der Gruppenummer (Valenzelektronen).</li>
+            <li>Zunächst werden die 4 Seiten einzeln besetzt (1 Punkt pro Seite), dann erst aufgefüllt (Paare).</li>
+            <li>Einzelne Elektronen (Radikalelektronen) können Bindungen eingehen.</li>
+          </ul>
+          <div class="formula-box">
+            Na: ·Na &nbsp;&nbsp; Cl: :Cl· &nbsp;&nbsp; O: ··O·· &nbsp;&nbsp; N: ·N··
+          </div>
+          <p>Valenzelektronen bestimmen, wie viele Bindungen ein Atom eingehen kann.</p>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-2">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 3: Elektrischer Strom ─────────── -->
+    <section class="topic-section" id="topic-3">
+      <div class="topic-header">
+        <span class="topic-number">03</span>
+        <h2>Elektrischer Strom</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-3">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-3">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-3">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Elektrischer Strom</h3>
+          <p>Elektrischer Strom ist die gerichtete Bewegung von Ladungsträgern.</p>
+          <div class="exp-table">
+            <div class="exp-row">
+              <div class="exp-cell label">Metalle</div>
+              <div class="exp-cell">Freie Elektronen bewegen sich durch das Metallgitter → sehr gute Leiter</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Salzlösungen / Schmelzen</div>
+              <div class="exp-cell">Ionen wandern zur entgegengesetzt geladenen Elektrode → Ionenleitung</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Luft (Gase)</div>
+              <div class="exp-cell">Keine freien Ladungsträger → Nichtleiter (Isolator)</div>
+            </div>
+          </div>
+          <p>Merke: Nur wenn Ladungsträger vorhanden und frei beweglich sind, fließt Strom.</p>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-3">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 4: Ionenbildung ─────────── -->
+    <section class="topic-section" id="topic-4">
+      <div class="topic-header">
+        <span class="topic-number">04</span>
+        <h2>Ionenbildung bei Salzen</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-4">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-4">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-4">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Ionenbildung bei Salzen</h3>
+          <p>Bei der Bildung von Salzen überträgt ein Metall-Atom Elektronen auf ein Nichtmetall-Atom. Es entsteht ein Ionenpaar.</p>
+          <div class="formula-box">
+            Na + Cl → Na⁺ + Cl⁻ → NaCl (Kochsalz)
+          </div>
+          <p>Das Metall-Atom gibt so viele Elektronen ab, bis es die Edelgaskonfiguration erreicht. Das Nichtmetall-Atom nimmt so viele Elektronen auf, bis auch es die Edelgaskonfiguration hat.</p>
+          <p>Die entgegengesetzt geladenen Ionen ziehen sich elektrostatisch an (<strong>Coulomb-Kraft</strong>) und bilden den Ionenkristall.</p>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-4">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 5: Eigenschaften Salze / Ionengitter ─────────── -->
+    <section class="topic-section" id="topic-5">
+      <div class="topic-header">
+        <span class="topic-number">05</span>
+        <h2>Eigenschaften von Salzen &amp; Ionengitter</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-5">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-5">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-5">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Ionengitter und Salzeigenschaften</h3>
+          <p>Salze bilden ein <strong>Ionengitter</strong>: Kationen und Anionen wechseln sich im regelmäßigen Muster ab und halten sich durch Coulomb-Kräfte zusammen.</p>
+          <div class="exp-table">
+            <div class="exp-row">
+              <div class="exp-cell label">Hoher Schmelzpunkt</div>
+              <div class="exp-cell">Starke elektrostatische Kräfte zwischen Ionen müssen überwunden werden</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Spröde</div>
+              <div class="exp-cell">Beim Verschieben treffen gleich geladene Ionen aufeinander → Abstoßung → Bruch</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Lösung/Schmelze leitet</div>
+              <div class="exp-cell">Ionen werden frei beweglich → Ionenleitung möglich</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Fest isoliert</div>
+              <div class="exp-cell">Ionen im Gitter fixiert → kein Ladungstransport möglich</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-5">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 6: Elektronenpaarbindung ─────────── -->
+    <section class="topic-section" id="topic-6">
+      <div class="topic-header">
+        <span class="topic-number">06</span>
+        <h2>Elektronenpaarbindung (EPB)</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-6">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-6">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-6">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Elektronenpaarbindung</h3>
+          <p>Zwei Nichtmetall-Atome teilen sich ein oder mehrere Elektronenpaare – das nennt man <strong>kovalente Bindung</strong> oder Elektronenpaarbindung.</p>
+          <p>Typen:</p>
+          <ul>
+            <li><strong>Einfachbindung</strong>: 1 gemeinsames Elektronenpaar (z.B. H₂, Cl₂)</li>
+            <li><strong>Doppelbindung</strong>: 2 gemeinsame Elektronenpaare (z.B. O₂)</li>
+            <li><strong>Dreifachbindung</strong>: 3 gemeinsame Elektronenpaare (z.B. N₂)</li>
+          </ul>
+          <div class="formula-box">
+            H–H (H₂) &nbsp;&nbsp; O=O (O₂) &nbsp;&nbsp; N≡N (N₂)
+          </div>
+          <p>Bindende Elektronenpaare werden zwischen den Atomen geteilt. Nicht-bindende Elektronenpaare (freie Paare) verbleiben am jeweiligen Atom.</p>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-6">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 7: Luft leitet nicht ─────────── -->
+    <section class="topic-section" id="topic-7">
+      <div class="topic-header">
+        <span class="topic-number">07</span>
+        <h2>Warum leitet Luft keinen Strom?</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-7">
+        <div class="card-label">Interaktiv</div>
+        <!-- EPB-Widget integriert N₂/O₂ als Beispiele -->
+      </div>
+
+      <details class="card exp-card" id="exp-7">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-7">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Luft als Nichtleiter</h3>
+          <p>Luft besteht hauptsächlich aus N₂ (78%) und O₂ (21%). Diese Moleküle sind durch kovalente Bindungen zusammengehalten.</p>
+          <p>Da alle Elektronen in Bindungen (bindende EP) oder als freie Paare fest am Molekül gebunden sind, gibt es <strong>keine freien Ladungsträger</strong>.</p>
+          <p>Ohne freie Ladungsträger kann kein elektrischer Strom fließen → Luft ist ein <strong>Isolator</strong>.</p>
+          <div class="formula-box">
+            N≡N: 3 bindende EP + 2 freie EP je N-Atom → alle Elektronen gebunden<br>
+            O=O: 2 bindende EP + 2 freie EP je O-Atom → alle Elektronen gebunden
+          </div>
+          <p>Beim Blitz wird Luft durch extreme Energie ionisiert – dann leitet sie kurzzeitig!</p>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-7">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 8: Metallbindung ─────────── -->
+    <section class="topic-section" id="topic-8">
+      <div class="topic-header">
+        <span class="topic-number">08</span>
+        <h2>Metallbindung &amp; Elektronen-See</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-8">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-8">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-8">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Metallbindung</h3>
+          <p>Im Metall geben die Atome ihre Valenzelektronen ab und werden zu positiv geladenen Metallionen (Kationen). Die Elektronen sind frei beweglich und bilden den sogenannten <strong>Elektronen-See</strong>.</p>
+          <p>Die positiven Metallionen sind in einem Gitter angeordnet und werden vom Elektronen-See zusammengehalten.</p>
+          <div class="exp-table">
+            <div class="exp-row">
+              <div class="exp-cell label">Elektrische Leitfähigkeit</div>
+              <div class="exp-cell">Freie Elektronen wandern im el. Feld → sehr gute Leiter</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Wärmeleitfähigkeit</div>
+              <div class="exp-cell">Elektronen transportieren thermische Energie</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Verformbarkeit</div>
+              <div class="exp-cell">Gitterschichten können gleiten, Elektronen passen sich an → duktil</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Metallischer Glanz</div>
+              <div class="exp-cell">Freie Elektronen reflektieren Licht</div>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-8">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 9+10: EN & ΔEN ─────────── -->
+    <section class="topic-section" id="topic-9">
+      <div class="topic-header">
+        <span class="topic-number">09</span>
+        <h2>Elektronegativität (EN)</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-9">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-9">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-9">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Elektronegativität</h3>
+          <p>Die <strong>Elektronegativität (EN)</strong> gibt an, wie stark ein Atom die Elektronen einer Bindung zu sich hinzieht.</p>
+          <p>Trends im Periodensystem:</p>
+          <ul>
+            <li>Von links nach rechts in einer Periode: EN nimmt zu</li>
+            <li>Von oben nach unten in einer Gruppe: EN nimmt ab</li>
+            <li>Fluor hat die höchste EN (4,0)</li>
+          </ul>
+          <div class="formula-box">
+            EN-Skala (Pauling): F(4,0) &gt; O(3,5) &gt; N(3,0) &gt; Cl(3,0) &gt; Br(2,8) &gt; C(2,5) &gt; H(2,1) &gt; Na(0,9)
+          </div>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-9">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <section class="topic-section" id="topic-10">
+      <div class="topic-header">
+        <span class="topic-number">10</span>
+        <h2>Elektronegativitätsdifferenz (ΔEN) &amp; Bindungstypen</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-10">
+        <div class="card-label">Interaktiv</div>
+        <!-- en-rechner.js teilt sich zwischen Thema 9 und 10 -->
+      </div>
+
+      <details class="card exp-card" id="exp-10">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-10">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>ΔEN und Bindungstypen</h3>
+          <p>Die <strong>Elektronegativitätsdifferenz (ΔEN)</strong> zwischen zwei Atomen bestimmt den Bindungstyp:</p>
+          <div class="exp-table">
+            <div class="exp-row">
+              <div class="exp-cell label">ΔEN = 0</div>
+              <div class="exp-cell">Unpolare kovalente Bindung (z.B. H₂, Cl₂)</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">0 &lt; ΔEN &lt; 1,7</div>
+              <div class="exp-cell">Polare kovalente Bindung (z.B. HCl, H₂O)</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">ΔEN ≥ 1,7</div>
+              <div class="exp-cell">Ionenbindung (z.B. NaCl, MgO)</div>
+            </div>
+          </div>
+          <p>Bei polaren Bindungen ist die Bindung zum elektronegativen Atom hin verschoben → Partialladungen δ+ und δ−.</p>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-10">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+    <!-- ─────────── TOPIC 11: Elektrolyse ─────────── -->
+    <section class="topic-section" id="topic-11">
+      <div class="topic-header">
+        <span class="topic-number">11</span>
+        <h2>Elektrolyse</h2>
+      </div>
+
+      <div class="card widget-card" id="widget-11">
+        <div class="card-label">Interaktiv</div>
+      </div>
+
+      <details class="card exp-card" id="exp-11">
+        <summary class="exp-summary">
+          <span class="lock-icon" id="lock-11">🔒</span>
+          <span>Erklärung – erst nach dem Ausprobieren!</span>
+        </summary>
+        <div class="exp-body">
+          <h3>Elektrolyse</h3>
+          <p>Bei der <strong>Elektrolyse</strong> wird durch elektrische Energie eine chemische Reaktion erzwungen, die freiwillig nicht ablaufen würde.</p>
+          <p>Aufbau: Zwei Elektroden tauchen in die Elektrolyt-Lösung (leitende Ionenlösung).</p>
+          <div class="exp-table">
+            <div class="exp-row">
+              <div class="exp-cell label">Kathode (−)</div>
+              <div class="exp-cell">Kationen (+ Ionen) wandern hin → nehmen Elektronen auf (Reduktion)</div>
+            </div>
+            <div class="exp-row">
+              <div class="exp-cell label">Anode (+)</div>
+              <div class="exp-cell">Anionen (− Ionen) wandern hin → geben Elektronen ab (Oxidation)</div>
+            </div>
+          </div>
+          <p>Beispiel: Elektrolyse von Natriumchlorid-Lösung (Chloralkali-Elektrolyse):</p>
+          <div class="formula-box">
+            Kathode: 2 H₂O + 2 e⁻ → H₂ + 2 OH⁻<br>
+            Anode: 2 Cl⁻ → Cl₂ + 2 e⁻
+          </div>
+          <p>Merkhilfe: <strong>LEO sagt GER</strong> – Elektronen-Abgabe = Oxidation, Elektronen-Aufnahme = Reduktion.</p>
+        </div>
+      </details>
+
+      <div class="card quiz-card" id="quiz-11">
+        <div class="card-label quiz-label">Quiz</div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p>Chemie Klasse 10 · Interaktives Lernen · <a href="https://github.com/berndheidemann/chemie-lernseite" target="_blank">GitHub</a></p>
+  </footer>
+
+  <!-- Scripts (ES Modules) -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
