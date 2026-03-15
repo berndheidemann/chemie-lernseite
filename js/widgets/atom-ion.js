@@ -86,6 +86,10 @@ export function init(container, unlock) {
         <div style="text-align:center; margin:0.5rem 0; padding:0.5rem; background:rgba(81,207,102,0.1); border-radius:8px; color:var(--green); font-size:0.9rem">
           ✅ Na hat 1 Elektron abgegeben → Na⁺ (Kation) + Cl⁻ (Anion) = NaCl!
         </div>
+        <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.25rem">
+          <span class="badge badge-pink" style="font-size:0.8rem">Na⁺: 10e = Ne-Konfiguration ✓</span>
+          <span class="badge badge-blue" style="font-size:0.8rem">Cl⁻: 18e = Ar-Konfiguration ✓</span>
+        </div>
       ` : ''}
 
       <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; margin-top:1rem">

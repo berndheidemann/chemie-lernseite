@@ -141,6 +141,16 @@ export function init(container, unlock) {
         </div>
       ` : ''}
 
+      <!-- Quick Examples -->
+      <div style="margin-bottom:0.75rem">
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:0.35rem">Schnellbeispiele:</div>
+        <div style="display:flex; gap:0.4rem; flex-wrap:wrap">
+          ${[['Na','Cl','NaCl'],['K','F','KF'],['H','Cl','HCl'],['H','H','H₂'],['O','O','O₂'],['N','O','NO']].map(([a,b,label]) =>
+            `<button class="btn btn-secondary" data-qa="${a}" data-qb="${b}" style="font-size:0.78rem; padding:3px 10px; min-height:30px; font-family:monospace">${label}</button>`
+          ).join('')}
+        </div>
+      </div>
+
       <p class="widget-hint">ΔEN &lt; 1,7 = kovalent | ΔEN ≥ 1,7 = Ionenbindung</p>
     `;
 
@@ -154,6 +164,15 @@ export function init(container, unlock) {
       elemB = e.target.value;
       if (!unlockCalled) { unlockCalled = true; unlock(); }
       render();
+    });
+
+    container.querySelectorAll('[data-qa]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        elemA = btn.dataset.qa;
+        elemB = btn.dataset.qb;
+        if (!unlockCalled) { unlockCalled = true; unlock(); }
+        render();
+      });
     });
   }
 

@@ -76,6 +76,19 @@ export function init(container, questions, topicId) {
       btn.addEventListener('touchend', e => { e.preventDefault(); handleAnswer(btn); });
     });
 
+    // Keyboard shortcuts: A/B/C/D or 1/2/3/4
+    const keyHandler = (e) => {
+      if (answered[currentIndex] !== null) return;
+      const keyMap = { a: 0, b: 1, c: 2, d: 3, '1': 0, '2': 1, '3': 2, '4': 3 };
+      const idx = keyMap[e.key.toLowerCase()];
+      if (idx !== undefined) {
+        const opts = container.querySelectorAll('.quiz-option:not([disabled])');
+        if (opts[idx]) handleAnswer(opts[idx]);
+      }
+    };
+    container._quizKeyHandler = keyHandler;
+    document.addEventListener('keydown', keyHandler);
+
     const prevBtn = container.querySelector(`#quiz-prev-${topicId}`);
     const nextBtn = container.querySelector(`#quiz-next-${topicId}`);
     const resetBtn = container.querySelector(`#quiz-reset-${topicId}`);
