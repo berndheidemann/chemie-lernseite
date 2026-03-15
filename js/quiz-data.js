@@ -235,7 +235,7 @@ export const QUIZ_DATA = [
     options: [
       { text: "Einfachbindung", correct: false, explanation: "N hat 5 Valenzelektronen, je 3 unbindende → 3 gemeinsame EP → Dreifachbindung." },
       { text: "Doppelbindung", correct: false, explanation: "Doppelbindung (2 EP) wäre z.B. O₂ oder CO₂." },
-      { text: "Dreifachbindung (N≡N)", correct: true,  explanation: "Richtig! N hat 5 Valenzelektronen: 1 freies Paar + 3 Radikalelektronen → 3 gemeinsame EP → N≡N." },
+      { text: "Dreifachbindung (N≡N)", correct: true,  explanation: "Richtig! N hat 5 Valenzelektronen: 1 freies Paar (2e) + 3 Bindungselektronen → 3 gemeinsame EP → N≡N." },
       { text: "Ionenbindung", correct: false, explanation: "N₂ besteht aus zwei gleichen Nichtmetallatomen → keine Ionenübertragung möglich." }
     ]
   },

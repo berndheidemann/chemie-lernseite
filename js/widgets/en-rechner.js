@@ -52,7 +52,7 @@ export function init(container, unlock) {
     P:  { en: 2.1, name: 'Phosphor' },
     S:  { en: 2.5, name: 'Schwefel' },
     Cl: { en: 3.0, name: 'Chlor' },
-    K:  { en: 0.9, name: 'Kalium' },
+    K:  { en: 0.8, name: 'Kalium' },
     Ca: { en: 1.0, name: 'Calcium' },
     Br: { en: 2.8, name: 'Brom' },
     I:  { en: 2.5, name: 'Iod' },
@@ -136,7 +136,7 @@ export function init(container, unlock) {
       ${(() => {
         const pair = [elemA, elemB].sort().join('-');
         const notes = {
-          'F-K':  { calc: 'EN K = 0,9 ; EN F = 4,0 → ΔEN = 4,0 − 0,9 = 3,1', result: 'Da ΔEN > 1,7 → Ionenbindung', color: 'var(--pink)' },
+          'F-K':  { calc: 'EN K = 0,8 ; EN F = 4,0 → ΔEN = 4,0 − 0,8 = 3,2', result: 'Da ΔEN > 1,7 → Ionenbindung', color: 'var(--pink)' },
           'Cl-Na':{ calc: 'EN Na = 0,9 ; EN Cl = 3,0 → ΔEN = 3,0 − 0,9 = 2,1', result: 'Da ΔEN > 1,7 → Ionenbindung (NaCl)', color: 'var(--pink)' },
           'Cl-H': { calc: 'EN H = 2,1 ; EN Cl = 3,0 → ΔEN = 3,0 − 2,1 = 0,9', result: '0 < ΔEN < 1,7 → Polare Bindung (HCl)', color: 'var(--amber)' },
           'H-H':  { calc: 'EN H = 2,1 ; EN H = 2,1 → ΔEN = 2,1 − 2,1 = 0', result: 'ΔEN = 0 → Unpolare Bindung (H₂)', color: 'var(--green)' },
