@@ -33,6 +33,22 @@ function updateProgress() {
     pill.classList.toggle('done', unlocked.has(t));
     pill.classList.toggle('active', false); // Reset, set below via IntersectionObserver
   });
+
+  // Completion celebration
+  if (count === 11 && !document.getElementById('completion-toast')) {
+    const toast = document.createElement('div');
+    toast.id = 'completion-toast';
+    toast.style.cssText = `
+      position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+      background:linear-gradient(135deg,rgba(81,207,102,0.95),rgba(77,171,247,0.9));
+      color:#000; padding:1.5rem 2rem; border-radius:16px; text-align:center;
+      font-weight:700; font-size:1.1rem; z-index:999; box-shadow:0 0 40px rgba(81,207,102,0.5);
+      animation:fadeInUp 0.5s ease;
+    `;
+    toast.innerHTML = `🏆 Alle 11 Themen freigeschaltet!<br><span style="font-size:0.85rem;font-weight:400">Du hast die gesamte Chemie-Lernseite abgeschlossen!</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.5s'; setTimeout(() => toast.remove(), 500); }, 4000);
+  }
 }
 
 // ── Unlock Callback Factory ─────────────────────────────

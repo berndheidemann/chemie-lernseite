@@ -132,14 +132,23 @@ export function init(container, unlock) {
       ${isPolar ? renderPolarViz(elemA, elemB, enA, enB) : ''}
       ${isIonic ? renderIonicViz(lessEN, moreEN) : ''}
 
-      <!-- Lernzettel-Beispiel KF -->
-      ${(elemA === 'K' && elemB === 'F') || (elemA === 'F' && elemB === 'K') ? `
-        <div style="background:rgba(255,212,59,0.08); border:1px solid rgba(255,212,59,0.3); border-radius:8px; padding:0.65rem 0.75rem; font-size:0.85rem; margin-bottom:0.75rem">
+      <!-- Lernzettel-Beispiele -->
+      ${(() => {
+        const pair = [elemA, elemB].sort().join('-');
+        const notes = {
+          'F-K':  { calc: 'EN K = 0,9 ; EN F = 4,0 → ΔEN = 4,0 − 0,9 = 3,1', result: 'Da ΔEN > 1,7 → Ionenbindung', color: 'var(--pink)' },
+          'Cl-Na':{ calc: 'EN Na = 0,9 ; EN Cl = 3,0 → ΔEN = 3,0 − 0,9 = 2,1', result: 'Da ΔEN > 1,7 → Ionenbindung (NaCl)', color: 'var(--pink)' },
+          'Cl-H': { calc: 'EN H = 2,1 ; EN Cl = 3,0 → ΔEN = 3,0 − 2,1 = 0,9', result: '0 < ΔEN < 1,7 → Polare Bindung (HCl)', color: 'var(--amber)' },
+          'H-H':  { calc: 'EN H = 2,1 ; EN H = 2,1 → ΔEN = 2,1 − 2,1 = 0', result: 'ΔEN = 0 → Unpolare Bindung (H₂)', color: 'var(--green)' },
+        };
+        const n = notes[pair];
+        if (!n) return '';
+        return `<div style="background:rgba(255,212,59,0.08); border:1px solid rgba(255,212,59,0.3); border-radius:8px; padding:0.65rem 0.75rem; font-size:0.85rem; margin-bottom:0.75rem">
           <span style="color:var(--amber); font-weight:700">📋 Lernzettel-Beispiel:</span>
-          <span style="font-family:monospace; color:var(--text)"> EN K = 0,9 ; EN F = 4,0 → ΔEN = 4,0 − 0,9 = 3,1</span><br>
-          <span style="color:var(--pink); font-weight:600">Da ΔEN > 1,7 liegt eine Ionenbindung vor.</span>
-        </div>
-      ` : ''}
+          <span style="font-family:monospace; color:var(--text)"> ${n.calc}</span><br>
+          <span style="color:${n.color}; font-weight:600">${n.result}</span>
+        </div>`;
+      })()}
 
       <!-- Quick Examples -->
       <div style="margin-bottom:0.75rem">
