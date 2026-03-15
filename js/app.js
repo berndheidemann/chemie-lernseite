@@ -18,6 +18,8 @@ import { init as initQuiz }    from './widgets/quiz.js';
 const unlocked = new Set(JSON.parse(localStorage.getItem('chem-unlocked') || '[]'));
 const perfectQuizzes = new Set(JSON.parse(localStorage.getItem('chem-quiz-perfect') || '[]'));
 
+const TOPIC_NAMES = ['','Atom & Ion','Lewis','el. Strom','Ionenbildung','Ionengitter','EPB','Luft & EPB','Metallbindung','EN','ΔEN','Elektrolyse'];
+
 function savePerfectQuizzes() {
   localStorage.setItem('chem-quiz-perfect', JSON.stringify([...perfectQuizzes]));
 }
@@ -35,10 +37,16 @@ function saveUnlocked() {
 }
 
 // ── Progress Bar ────────────────────────────────────────
+function updateKapitelCount() {
+  const el = document.getElementById('kapitel-count');
+  if (el) el.textContent = `${unlocked.size}/11`;
+}
+
 function updateProgress() {
   const count = unlocked.size;
   document.getElementById('progress-count').textContent = count;
   document.getElementById('progress-fill').style.width = `${(count / 11) * 100}%`;
+  updateKapitelCount();
 
   // Update pill nav
   document.querySelectorAll('.pill[data-topic]').forEach(pill => {
@@ -257,6 +265,10 @@ function setupNavObserver() {
       const target = nav.scrollLeft + pillRect.left - navRect.left - (navRect.width - pillRect.width) / 2;
       nav.scrollTo({ left: target, behavior: 'smooth' });
     }
+    // Update kapitel-bar label with current chapter
+    const topicNum = parseInt(pill.dataset.topic);
+    const label = document.getElementById('kapitel-current');
+    if (label && topicNum) label.textContent = `${topicNum} · ${TOPIC_NAMES[topicNum]}`;
   }
 
   // On pill click: immediately highlight + lock observer for scroll duration
@@ -351,6 +363,63 @@ function setupTopicNavigation() {
   });
 }
 
+// ── Kapitel-Overlay (Mobile Bottom Sheet) ───────────────
+function setupKapitelOverlay() {
+  const btn = document.getElementById('kapitel-btn');
+  if (!btn) return;
+
+  // Build overlay DOM
+  const overlay = document.createElement('div');
+  overlay.id = 'kapitel-overlay';
+  overlay.className = 'kapitel-overlay';
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML = `
+    <div class="kapitel-sheet" role="dialog" aria-modal="true" aria-label="Kapitel wählen">
+      <div class="kapitel-drag-handle"></div>
+      <div class="kapitel-sheet-header">
+        <span class="kapitel-sheet-title">Kapitel wählen</span>
+        <button class="kapitel-close" aria-label="Schließen">✕</button>
+      </div>
+      <div class="kapitel-grid" id="kapitel-grid"></div>
+    </div>`;
+  document.body.appendChild(overlay);
+
+  function buildGrid() {
+    const grid = document.getElementById('kapitel-grid');
+    grid.innerHTML = '';
+    for (let i = 1; i <= 11; i++) {
+      const done = unlocked.has(i);
+      const tile = document.createElement('a');
+      tile.href = `#topic-${i}`;
+      tile.className = `kapitel-tile${done ? ' done' : ''}`;
+      tile.innerHTML = `
+        <span class="kapitel-tile-num">${i}</span>
+        <span class="kapitel-tile-name">${TOPIC_NAMES[i]}</span>
+        <span class="kapitel-tile-status">${done ? '✓' : ''}</span>`;
+      tile.addEventListener('click', () => close());
+      grid.appendChild(tile);
+    }
+  }
+
+  function open() {
+    buildGrid();
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', open);
+  overlay.querySelector('.kapitel-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+}
+
 // ── Boot ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   lockExpCards();
@@ -362,4 +431,5 @@ document.addEventListener('DOMContentLoaded', () => {
   setupTopicNavigation();
   setupExpQuizLinks();
   updateQuizStreak();
+  setupKapitelOverlay();
 });

@@ -39,7 +39,7 @@
     </div>
   </header>
 
-  <!-- STICKY NAV -->
+  <!-- STICKY NAV – Desktop -->
   <nav class="pill-nav" id="pill-nav" aria-label="Themen-Navigation">
     <div class="pill-nav-inner">
       <a href="#topic-1" class="pill" data-topic="1">1 · Atom &amp; Ion</a>
@@ -55,6 +55,15 @@
       <a href="#topic-11" class="pill" data-topic="11">11 · Elektrolyse</a>
     </div>
   </nav>
+
+  <!-- STICKY NAV – Mobile: Kapitel-Button -->
+  <div class="kapitel-bar" id="kapitel-bar">
+    <button class="kapitel-btn" id="kapitel-btn" aria-haspopup="dialog" aria-controls="kapitel-overlay">
+      <span class="kapitel-btn-icon" aria-hidden="true">☰</span>
+      <span id="kapitel-current">Kapitel wählen</span>
+      <span class="kapitel-btn-count" id="kapitel-count">0/11</span>
+    </button>
+  </div>
 
   <main class="main-content" id="main-content">
 
