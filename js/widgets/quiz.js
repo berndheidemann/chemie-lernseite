@@ -29,15 +29,26 @@ export function init(container, questions, topicId) {
     const q = questions[currentIndex];
     const isAnswered = answered[currentIndex] !== null;
 
+    const correctSoFar  = answered.filter(a => a === 'correct').length;
+    const answeredSoFar = answered.filter(a => a !== null).length;
+
     container.innerHTML = `
-      <div class="quiz-progress">
-        ${questions.map((_, i) => {
-          let cls = '';
-          if (i === currentIndex) cls = 'current';
-          else if (answered[i] === 'correct') cls = 'done correct-dot';
-          else if (answered[i] === 'wrong') cls = 'done wrong-dot';
-          return `<div class="quiz-dot ${cls}" title="Frage ${i + 1}"></div>`;
-        }).join('')}
+      <div class="quiz-progress" style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap">
+        <div style="display:flex; gap:0.4rem; align-items:center">
+          ${questions.map((_, i) => {
+            let cls = '';
+            if (i === currentIndex) cls = 'current';
+            else if (answered[i] === 'correct') cls = 'done correct-dot';
+            else if (answered[i] === 'wrong') cls = 'done wrong-dot';
+            return `<div class="quiz-dot ${cls}" title="Frage ${i + 1}"></div>`;
+          }).join('')}
+        </div>
+        ${answeredSoFar > 0 ? `
+          <span style="font-size:0.75rem; font-weight:700; margin-left:auto;
+            color:${correctSoFar === answeredSoFar ? 'var(--green)' : correctSoFar > answeredSoFar / 2 ? 'var(--amber)' : '#f75050'}">
+            ${correctSoFar}/${answeredSoFar} ✓
+          </span>
+        ` : `<span style="font-size:0.72rem; color:var(--text-muted); margin-left:auto">${questions.length} Fragen</span>`}
       </div>
 
       <div class="quiz-question-wrap">
