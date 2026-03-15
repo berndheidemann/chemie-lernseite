@@ -1,74 +1,102 @@
 /**
  * ionenbildung.js – Widget: Ionenbildung bei Salzen
  *
- * AUFGABE:
- * Schritt-für-Schritt-Animation: Na-Elektron "springt" zu Cl.
- * Zeigt die Entstehung von Na⁺ und Cl⁻ visuell.
- *
- * SCHRITTE:
- * 1. Start: Na-Atom (11e, neutral) links, Cl-Atom (17e, neutral) rechts
- * 2. Animation: Das Außenelektron von Na bewegt sich als Punkt von Na → Cl
- * 3. Ende: Na⁺ (links, pink Glow) und Cl⁻ (rechts, blau Glow)
- * 4. Gleichung erscheint: Na + Cl → Na⁺ + Cl⁻
- * 5. Taste: [→ Nächster Schritt] / [↺ Nochmal]
- *
- * UNLOCK: Nach Abschluss der Animation (Schritt 3 erreicht)
- *
- * LAYOUT (mobile-first):
- * - SVG-Atome nebeneinander (flex-wrap)
- * - Animierter Elektron-Punkt (absolute-positioned div)
- * - Schritt-Anzeige oben: "Schritt 1/3"
- *
- * TECHNOLOGIE: SVG + CSS-Transitions/Animations
+ * Schritt-für-Schritt-Animation: Elektron(en) springen von Donor → Acceptor.
+ * Auswählbar: Na+Cl (1e) oder Ca+O (2e)
  *
  * @param {HTMLElement} container - Ziel-div (#widget-4)
  * @param {function} unlock
  */
 export function init(container, unlock) {
-  let step = 0; // 0=start, 1=transferring, 2=done
+  let step = 0;
   let unlockCalled = false;
-  let animating = false;
 
-  const STEPS = [
-    { label: 'Ausgangszustand', desc: 'Na-Atom (11p, 11e – neutral) und Cl-Atom (17p, 17e – neutral). Na hat 1 Valenzelektron, Cl hat 7.' },
-    { label: 'Elektronenübertragung', desc: 'Na gibt sein Außenelektron ab (11p, 10e = Ne-Konfiguration). Es "springt" zu Cl (17p, 18e = Ar-Konfiguration).' },
-    { label: 'Ionenpaar entstand', desc: 'Na⁺ (10e, Ladung +1) und Cl⁻ (18e, Ladung −1) – beide haben Edelgaskonfiguration! Coulomb-Anziehung → Ionenbindung NaCl.' },
-  ];
+  const PAIRS = {
+    nacl: {
+      label: 'Na + Cl',
+      donor:    { symbol: 'Na', protons: 11, outerStart: 1, outerEnd: 0 },
+      acceptor: { symbol: 'Cl', protons: 17, outerStart: 7, outerEnd: 8 },
+      transfer: 1,
+      steps: [
+        { label: 'Ausgangszustand', desc: 'Na-Atom (11p, 11e – neutral) und Cl-Atom (17p, 17e – neutral). Na hat 1 Valenzelektron, Cl hat 7.' },
+        { label: 'Elektronenübertragung', desc: 'Na gibt sein Außenelektron ab → Na⁺ (10e = Ne-Konfiguration). Cl nimmt es auf → Cl⁻ (18e = Ar-Konfiguration).' },
+        { label: 'Ionenpaar entstand', desc: 'Na⁺ (10e, +1) und Cl⁻ (18e, −1) – beide Edelgaskonfiguration! Coulomb-Anziehung → NaCl.' },
+      ],
+      formula: 'Na + Cl → Na⁺ + Cl⁻',
+      product: 'NaCl (Kochsalz)',
+    },
+    cao: {
+      label: 'Ca + O',
+      donor:    { symbol: 'Ca', protons: 20, outerStart: 2, outerEnd: 0 },
+      acceptor: { symbol: 'O',  protons:  8, outerStart: 6, outerEnd: 8 },
+      transfer: 2,
+      steps: [
+        { label: 'Ausgangszustand', desc: 'Ca-Atom (20p, 20e – neutral, 2. HG) und O-Atom (8p, 8e – neutral, 6. HG). Ca hat 2, O hat 6 Valenzelektronen.' },
+        { label: '2 Elektronen übertragen', desc: 'Ca gibt beide Außenelektronen ab → Ca²⁺ (18e = Ar-Konfiguration). O nimmt beide auf → O²⁻ (10e = Ne-Konfiguration).' },
+        { label: 'Ionenpaar entstand', desc: 'Ca²⁺ (+2) und O²⁻ (−2) – beide Edelgaskonfiguration! Starke Coulomb-Anziehung → CaO (Calciumoxid).' },
+      ],
+      formula: 'Ca + O → Ca²⁺ + O²⁻',
+      product: 'CaO (Calciumoxid)',
+    },
+  };
+
+  let currentPair = 'nacl';
+  function getPair() { return PAIRS[currentPair]; }
 
   function render() {
+    const pair = getPair();
+    const { donor, acceptor, steps } = pair;
     const isStart = step === 0;
-    const isDone  = step === 2;
+    const isDone  = step === steps.length - 1;
+    const isTransfer = step === 1;
+
+    const donorElectrons    = isStart ? donor.outerStart : donor.outerEnd;
+    const acceptorElectrons = isStart ? acceptor.outerStart : acceptor.outerEnd;
+    const donorCharge    = isDone || isTransfer ? donor.outerStart : 0;
+    const acceptorCharge = isDone || isTransfer ? -acceptor.outerStart + acceptor.outerStart - (acceptorElectrons - acceptor.outerStart) : 0;
+
+    // Simpler: charges after transfer
+    const dCharge = step > 0 ? pair.transfer : 0;
+    const aCharge = step > 0 ? -pair.transfer : 0;
 
     container.innerHTML = `
+      <!-- Pair Selector -->
+      <div style="display:flex; gap:0.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:0.75rem">
+        <button class="btn ${currentPair === 'nacl' ? 'btn-amber' : 'btn-secondary'}"
+          id="pair-nacl" style="font-size:0.82rem; padding:0.3rem 0.8rem">Na + Cl (1e)</button>
+        <button class="btn ${currentPair === 'cao' ? 'btn-amber' : 'btn-secondary'}"
+          id="pair-cao" style="font-size:0.82rem; padding:0.3rem 0.8rem">Ca + O (2e)</button>
+      </div>
+
       <div style="text-align:center; margin-bottom:0.5rem">
-        <span class="badge badge-blue">Schritt ${step + 1}/3</span>
-        <span style="margin-left:0.5rem; font-size:0.85rem; color:var(--text-muted)">${STEPS[step].label}</span>
+        <span class="badge badge-blue">Schritt ${step + 1}/${steps.length}</span>
+        <span style="margin-left:0.5rem; font-size:0.85rem; color:var(--text-muted)">${steps[step].label}</span>
       </div>
 
       <div style="background:rgba(255,255,255,0.03); border-radius:8px; padding:0.5rem 0.75rem; font-size:0.85rem; color:var(--text-muted); text-align:center; margin-bottom:1rem">
-        ${STEPS[step].desc}
+        ${steps[step].desc}
       </div>
 
       <!-- Atoms display -->
-      <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.5rem; margin:1rem 0; position:relative">
-        ${drawAtom('Na', 11, isStart ? 11 : 10, step)}
-        <div id="electron-travel" style="font-size:1.5rem; min-width:40px; text-align:center; transition:all 0.4s">
-          ${step === 1 ? '<span style="color:var(--blue);animation:bounce 0.5s infinite">⚡</span>' : step === 2 ? '→' : '···'}
+      <div style="display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:1.5rem; margin:1rem 0">
+        ${drawAtom(donor.symbol, donor.protons, step === 0 ? donor.outerStart : donor.outerEnd, dCharge, true)}
+        <div style="font-size:1.5rem; min-width:40px; text-align:center; transition:all 0.4s">
+          ${step === 1 ? `<span style="color:var(--blue);animation:bounce 0.5s infinite">${'⚡'.repeat(pair.transfer)}</span>` : step === 2 ? '→' : '···'}
         </div>
-        ${drawAtom('Cl', 17, isStart ? 17 : 18, step)}
+        ${drawAtom(acceptor.symbol, acceptor.protons, step === 0 ? acceptor.outerStart : acceptor.outerEnd, aCharge, false)}
       </div>
 
       ${isDone ? `
-        <div class="formula-box" style="text-align:center; margin:0.75rem auto; max-width:320px">
-          Na + Cl → Na⁺ + Cl⁻<br>
-          <span style="font-size:0.8rem; color:var(--text-muted)">Coulomb-Anziehung: NaCl (Kochsalz)</span>
+        <div class="formula-box" style="text-align:center; margin:0.75rem auto; max-width:340px">
+          ${pair.formula}<br>
+          <span style="font-size:0.8rem; color:var(--text-muted)">Coulomb-Anziehung: ${pair.product}</span>
         </div>
       ` : ''}
 
       <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; margin-top:1rem">
         ${!isDone ? `
-          <button class="btn btn-amber" id="ionbild-next" ${animating ? 'disabled' : ''}>
-            ${step === 0 ? '⚡ Elektron übertragen' : '✓ Weiter'}
+          <button class="btn btn-amber" id="ionbild-next">
+            ${step === 0 ? '⚡ Elektronen übertragen' : '✓ Weiter'}
           </button>
         ` : `
           <button class="btn btn-green" id="ionbild-done">✅ Verstanden!</button>
@@ -78,6 +106,8 @@ export function init(container, unlock) {
       <p class="widget-hint">Beobachte, wie die Ladungen sich ändern!</p>
     `;
 
+    document.getElementById('pair-nacl')?.addEventListener('click', () => { currentPair = 'nacl'; step = 0; render(); });
+    document.getElementById('pair-cao')?.addEventListener('click',  () => { currentPair = 'cao';  step = 0; render(); });
     document.getElementById('ionbild-next')?.addEventListener('click', nextStep);
     document.getElementById('ionbild-done')?.addEventListener('click', () => {
       if (!unlockCalled) { unlockCalled = true; unlock(); }
@@ -85,31 +115,26 @@ export function init(container, unlock) {
     document.getElementById('ionbild-reset')?.addEventListener('click', () => { step = 0; render(); });
   }
 
-  function drawAtom(symbol, protons, electrons, currentStep) {
-    const charge = protons - electrons;
+  function drawAtom(symbol, protons, outerElectrons, charge, isDonor) {
     const isIon = charge !== 0;
-    const isNa = symbol === 'Na';
-
     const size = 120;
     const cx = size / 2;
     const cy = size / 2;
-    const r2 = size * 0.38; // outer shell
+    const r2 = size * 0.38;
 
-    // Glow based on ion status
     let glowColor = 'transparent';
-    if (isIon && isNa) glowColor = 'rgba(247,131,172,0.4)';
-    if (isIon && !isNa) glowColor = 'rgba(77,171,247,0.4)';
+    if (isIon && isDonor)  glowColor = 'rgba(247,131,172,0.4)';
+    if (isIon && !isDonor) glowColor = 'rgba(77,171,247,0.4)';
 
-    const outerCount = isNa ? (currentStep === 0 ? 1 : 0) : (currentStep < 2 ? 7 : 8);
-
-    const eDots = Array.from({length: Math.min(outerCount, 8)}, (_, i) => {
+    const eDots = Array.from({length: Math.min(outerElectrons, 8)}, (_, i) => {
       const angle = (i / 8) * 2 * Math.PI - Math.PI / 2;
       const x = cx + r2 * Math.cos(angle);
       const y = cy + r2 * Math.sin(angle);
       return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="5" fill="#4dabf7"/>`;
     }).join('');
 
-    const kernColor = isNa ? (isIon ? '#f783ac' : '#ffd43b') : (isIon ? '#4dabf7' : '#ffd43b');
+    const kernColor = isDonor ? (isIon ? '#f783ac' : '#ffd43b') : (isIon ? '#4dabf7' : '#ffd43b');
+    const chargeLabel = charge === 0 ? '' : charge > 0 ? (charge > 1 ? `${charge}+` : '+') : (charge < -1 ? `${Math.abs(charge)}−` : '−');
 
     return `
       <div style="text-align:center; flex:0 0 auto; filter:drop-shadow(0 0 8px ${glowColor})">
@@ -123,7 +148,7 @@ export function init(container, unlock) {
         </svg>
         <div style="margin-top:4px">
           <span class="charge-label ${charge > 0 ? 'charge-pos' : charge < 0 ? 'charge-neg' : 'charge-neutral'}">
-            ${symbol}${isIon ? `<sup>${charge > 0 ? '+' : '−'}</sup>` : ''}
+            ${symbol}${isIon ? `<sup>${chargeLabel}</sup>` : ''}
           </span>
           <span class="badge ${isIon ? (charge > 0 ? 'badge-pink' : 'badge-blue') : 'badge-amber'}" style="margin-left:4px">
             ${isIon ? (charge > 0 ? 'Kation' : 'Anion') : 'Atom'}
@@ -134,17 +159,17 @@ export function init(container, unlock) {
   }
 
   function nextStep() {
-    if (step < 2) {
+    const pair = getPair();
+    if (step < pair.steps.length - 1) {
       step++;
       render();
-      if (step === 2 && !unlockCalled) {
+      if (step === pair.steps.length - 1 && !unlockCalled) {
         unlockCalled = true;
         unlock();
       }
     }
   }
 
-  // Add bounce animation (once only)
   if (!document.getElementById('ionbild-bounce-style')) {
     const style = document.createElement('style');
     style.id = 'ionbild-bounce-style';
