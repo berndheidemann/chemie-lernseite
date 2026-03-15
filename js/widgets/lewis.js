@@ -118,7 +118,16 @@ export function init(container, unlock) {
         <div class="quiz-feedback ${checkResult && checkResult.every(r => r === 'correct') ? 'correct' : 'wrong'}" style="text-align:center; margin-bottom:0.75rem">
           ${checkResult && checkResult.every(r => r === 'correct')
             ? '✅ Richtig! Das ist die korrekte Lewis-Schreibweise für ' + selectedElement + '!'
-            : '❌ Nicht ganz – rote Positionen sind falsch.<br><small>Tipp: Erst alle 4 Seiten je 1 Elektron → dann Paare auffüllen.</small>'}
+            : (() => {
+                const placed = dots.reduce((a,b) => a+b, 0);
+                const expected = ELEMENTS[selectedElement].valence;
+                const wrongPos = checkResult.map((r,i) => r === 'wrong' ? POSITIONS[i] : null).filter(Boolean);
+                if (placed !== expected) {
+                  return `❌ Falsche Anzahl: Du hast ${placed}, aber ${selectedElement} hat ${expected} Valenzelektronen.<br><small>Tipp: Hauptgruppe ${ELEMENTS[selectedElement].group} → ${expected} Punkte gesamt.</small>`;
+                }
+                return `❌ Anzahl stimmt (${placed}✓), aber Verteilung falsch.<br><small>Position${wrongPos.length>1?'en':''} <strong>${wrongPos.join(', ')}</strong> ${wrongPos.length>1?'sind':'ist'} falsch. Erst alle 4 Seiten je 1 Elektron, dann Paare!</small>`;
+              })()
+          }
         </div>
       ` : ''}
 
