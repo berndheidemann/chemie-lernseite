@@ -16,6 +16,19 @@ import { init as initQuiz }    from './widgets/quiz.js';
 
 // ── State ──────────────────────────────────────────────
 const unlocked = new Set(JSON.parse(localStorage.getItem('chem-unlocked') || '[]'));
+const perfectQuizzes = new Set(JSON.parse(localStorage.getItem('chem-quiz-perfect') || '[]'));
+
+function savePerfectQuizzes() {
+  localStorage.setItem('chem-quiz-perfect', JSON.stringify([...perfectQuizzes]));
+}
+
+function updateQuizStreak() {
+  const count = perfectQuizzes.size;
+  const countEl = document.getElementById('quiz-streak-count');
+  const wrapEl  = document.getElementById('quiz-streak-wrap');
+  if (countEl) countEl.textContent = count;
+  if (wrapEl)  wrapEl.style.display = count > 0 ? 'inline-flex' : 'none';
+}
 
 function saveUnlocked() {
   localStorage.setItem('chem-unlocked', JSON.stringify([...unlocked]));
@@ -199,12 +212,17 @@ function initQuizzes() {
       console.error(`Quiz ${i} init error:`, err);
     }
 
-    // Listen for quiz completion → update pill
+    // Listen for quiz completion → update pill + streak
     container.addEventListener('quiz-complete', e => {
       const { topicId, allCorrect } = e.detail;
       const pill = document.querySelector(`.pill[data-topic="${topicId}"]`);
       if (pill && allCorrect) {
         pill.classList.add('done');
+      }
+      if (allCorrect && !perfectQuizzes.has(topicId)) {
+        perfectQuizzes.add(topicId);
+        savePerfectQuizzes();
+        updateQuizStreak();
       }
     });
   }
@@ -260,8 +278,9 @@ function setupResetButton() {
   const btn = document.getElementById('reset-progress-btn');
   if (!btn) return;
   btn.addEventListener('click', () => {
-    if (confirm('Gesamten Fortschritt zurücksetzen? Alle freigeschalteten Themen werden zurückgesetzt.')) {
+    if (confirm('Gesamten Fortschritt zurücksetzen? Alle freigeschalteten Themen und Quiz-Punkte werden zurückgesetzt.')) {
       localStorage.removeItem('chem-unlocked');
+      localStorage.removeItem('chem-quiz-perfect');
       location.reload();
     }
   });
@@ -299,4 +318,5 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavObserver();
   setupResetButton();
   setupTopicNavigation();
+  updateQuizStreak();
 });
