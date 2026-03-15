@@ -144,10 +144,13 @@ export function init(container, unlock) {
     }
   }
 
-  // Add bounce animation
-  const style = document.createElement('style');
-  style.textContent = `@keyframes bounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }`;
-  document.head.appendChild(style);
+  // Add bounce animation (once only)
+  if (!document.getElementById('ionbild-bounce-style')) {
+    const style = document.createElement('style');
+    style.id = 'ionbild-bounce-style';
+    style.textContent = `@keyframes bounce { 0%,100%{transform:translateX(0)} 50%{transform:translateX(6px)} }`;
+    document.head.appendChild(style);
+  }
 
   render();
 }

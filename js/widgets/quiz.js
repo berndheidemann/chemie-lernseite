@@ -20,13 +20,13 @@ export function init(container, questions, topicId) {
 
     container.innerHTML = `
       <div class="quiz-progress">
-        ${questions.map((_, i) => `
-          <div class="quiz-dot ${
-            i === currentIndex ? 'current' :
-            answered[i] === 'correct' ? 'done' :
-            answered[i] === 'wrong' ? 'done' : ''
-          }" title="Frage ${i + 1}"></div>
-        `).join('')}
+        ${questions.map((_, i) => {
+          let cls = '';
+          if (i === currentIndex) cls = 'current';
+          else if (answered[i] === 'correct') cls = 'done correct-dot';
+          else if (answered[i] === 'wrong') cls = 'done wrong-dot';
+          return `<div class="quiz-dot ${cls}" title="Frage ${i + 1}"></div>`;
+        }).join('')}
       </div>
 
       <div class="quiz-question-wrap">
@@ -139,8 +139,7 @@ export function init(container, questions, topicId) {
     if (dots[currentIndex]) {
       dots[currentIndex].classList.remove('current');
       dots[currentIndex].classList.add('done');
-      dots[currentIndex].style.background = correct ? 'var(--green)' : '#f75050';
-      dots[currentIndex].style.borderColor = correct ? 'var(--green)' : '#f75050';
+      if (!correct) dots[currentIndex].classList.add('wrong-dot');
     }
 
     // Show score + reset if all answered

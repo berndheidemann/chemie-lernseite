@@ -38,6 +38,7 @@ export function init(container, unlock) {
     N2:  { label: 'N₂', atoms: ['N','N'], bonds: 3, valence: [5,5], formula: 'N≡N', note: '⚠️ Alle Elektronen gebunden → N₂ leitet keinen Strom! (Hauptbestandteil Luft: 78%)' },
     Cl2: { label: 'Cl₂', atoms: ['Cl','Cl'], bonds: 1, valence: [7,7], formula: 'Cl–Cl', note: '' },
     HCl: { label: 'HCl', atoms: ['H','Cl'], bonds: 1, valence: [1,7], formula: 'H–Cl', note: '(polare Bindung: Cl zieht Elektronen stärker an)' },
+    H2O: { label: 'H₂O', atoms: ['H','O'], bonds: 2, valence: [1,6], formula: 'H–O–H', note: '(Wasser: 2 Einfachbindungen, 2 freie Paare am O → gewinkelt)' },
   };
 
   let selectedMol = 'H2';

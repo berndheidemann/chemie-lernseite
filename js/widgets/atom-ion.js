@@ -130,8 +130,11 @@ export function init(container, unlock) {
       `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="${size * 0.045}" fill="${eColor}" stroke="none" class="e-dot" />`
     ).join('');
 
+    const totalElectrons = protons - charge;
+    const eCountLabel = `${protons}p / ${totalElectrons}e`;
+
     return `
-      <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="atom-svg">
+      <svg width="${size}" height="${size + size * 0.18}" viewBox="0 0 ${size} ${size + size * 0.18}" class="atom-svg">
         <!-- Inner shell -->
         <circle cx="${cx}" cy="${cy}" r="${r1}" fill="none" stroke="${shellColor}" stroke-width="1.5" stroke-dasharray="3,2"/>
         <!-- Outer shell -->
@@ -147,6 +150,10 @@ export function init(container, unlock) {
         <text x="${cx}" y="${cy + r2 + size * 0.1}" text-anchor="middle"
           font-family="system-ui,sans-serif" font-weight="700" font-size="${size * 0.13}"
           fill="var(--text)">${symbol}</text>
+        <!-- Electron count label -->
+        <text x="${cx}" y="${size + size * 0.14}" text-anchor="middle"
+          font-family="monospace" font-size="${size * 0.09}"
+          fill="rgba(123,163,192,0.8)">${eCountLabel}</text>
       </svg>
     `;
   }
