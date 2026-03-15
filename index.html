@@ -4,14 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chemie Klasse 10 – Interaktives Lernen</title>
+  <meta name="description" content="Interaktive Lernseite für Chemie Klasse 10: Chemische Bindungen und Elektrochemie mit Widgets und Quiz.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- Skip to main content (Accessibility) -->
+  <a href="#main-content" class="skip-nav">Zum Hauptinhalt springen</a>
+
   <!-- HEADER -->
-  <header class="site-header">
+  <header class="site-header" role="banner">
     <div class="header-inner">
       <div class="header-title">
-        <span class="header-icon">⚗️</span>
+        <span class="header-icon" aria-hidden="true">⚗️</span>
         <div>
           <h1>Chemie Klasse 10</h1>
           <p class="header-sub">Chemische Bindungen &amp; Elektrochemie</p>
@@ -23,11 +27,11 @@
             · 🏆 Quiz: <strong id="quiz-streak-count">0</strong>/11
           </span>
         </div>
-        <div class="progress-bar-track">
+        <div class="progress-bar-track" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="11" aria-label="Lernfortschritt">
           <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
         </div>
       </div>
-      <button id="reset-progress-btn" title="Fortschritt zurücksetzen" style="
+      <button id="reset-progress-btn" title="Fortschritt zurücksetzen" aria-label="Lernfortschritt zurücksetzen" style="
         background:none; border:1px solid rgba(255,255,255,0.12); border-radius:6px;
         color:var(--text-muted); font-size:0.75rem; padding:4px 8px; cursor:pointer;
         transition:all 0.2s; white-space:nowrap; flex-shrink:0
@@ -36,7 +40,7 @@
   </header>
 
   <!-- STICKY NAV -->
-  <nav class="pill-nav" id="pill-nav">
+  <nav class="pill-nav" id="pill-nav" aria-label="Themen-Navigation">
     <div class="pill-nav-inner">
       <a href="#topic-1" class="pill" data-topic="1">1 · Atom &amp; Ion</a>
       <a href="#topic-2" class="pill" data-topic="2">2 · Lewis</a>
@@ -52,7 +56,7 @@
     </div>
   </nav>
 
-  <main class="main-content">
+  <main class="main-content" id="main-content">
 
     <!-- ─────────── TOPIC 1: Atom, Ion, Kation, Anion ─────────── -->
     <section class="topic-section" id="topic-1">
