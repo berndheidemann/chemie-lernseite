@@ -623,11 +623,17 @@ canvas {
 /* ── Scroll animations ── */
 .topic-section {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .topic-section.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* First section always visible on load */
+#topic-1 {
   opacity: 1;
   transform: none;
 }

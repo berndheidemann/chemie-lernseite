@@ -103,10 +103,10 @@ const WIDGETS = [
   { id: 3,  init: initStrom,       topics: [3] },
   { id: 4,  init: initIonenbildung,topics: [4] },
   { id: 5,  init: initIonengitter, topics: [5] },
-  { id: 6,  init: initEpb,         topics: [6, 7] },
+  { id: 6,  init: initEpb,         topics: [6, 7] }, // EPB widget unlocks both 6 and 7
   { id: 7,  init: null,            topics: [7] },  // Integrated in widget-6
   { id: 8,  init: initMetall,      topics: [8] },
-  { id: 9,  init: initEN,          topics: [9, 10] },
+  { id: 9,  init: initEN,          topics: [9, 10] }, // EN-Rechner unlocks both 9 and 10
   { id: 10, init: null,            topics: [10] }, // Integrated in widget-9
   { id: 11, init: initElektrolyse, topics: [11] },
 ];
@@ -129,23 +129,24 @@ function initWidgets() {
     }
   });
 
-  // Widget 7 shares EPB widget – just mirror unlock
+  // Widget 7 shares EPB widget – shows link, unlocked when widget-6 is used
   const w7 = document.getElementById('widget-7');
   if (w7) {
     w7.innerHTML = `<div style="padding:1rem;text-align:center;color:var(--text-muted)">
-      <p>Dieses Thema wird im <a href="#topic-6" style="color:var(--blue)">EPB-Widget (Thema 6)</a> behandelt.</p>
-      <p>Schau dir N₂ und O₂ als Beispiele an!</p>
+      <p>Dieses Thema baut auf dem EPB-Widget auf.</p>
+      <p>👆 Schaue dir im <a href="#topic-6" style="color:var(--blue)">EPB-Widget (Thema 6)</a> die Moleküle N₂ und O₂ als Beispiele an!</p>
+      <p style="margin-top:0.5rem; font-size:0.85rem">Wähle N₂ oder O₂ → "Zusammenschieben" → Erklärung freigeschaltet!</p>
     </div>`;
-    makeUnlock(7)(); // Auto-unlock since it's explained via topic 6
   }
 
-  // Widget 10 shares EN-Rechner – auto-unlock
+  // Widget 10 shares EN-Rechner from widget-9
   const w10 = document.getElementById('widget-10');
   if (w10) {
     w10.innerHTML = `<div style="padding:1rem;text-align:center;color:var(--text-muted)">
-      <p>Der <a href="#topic-9" style="color:var(--blue)">EN-Rechner (Thema 9)</a> zeigt dir auch ΔEN und den Bindungstyp!</p>
+      <p>Dieses Thema baut auf dem EN-Rechner auf.</p>
+      <p>👆 Nutze den <a href="#topic-9" style="color:var(--blue)">EN-Rechner (Thema 9)</a> und berechne ΔEN zwischen zwei Elementen!</p>
+      <p style="margin-top:0.5rem; font-size:0.85rem">Probiere z.B. Na + Cl oder H + Cl für verschiedene Bindungstypen.</p>
     </div>`;
-    // Topic 10 will be unlocked by the EN-Rechner widget when used
   }
 }
 
