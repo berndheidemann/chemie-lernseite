@@ -13,6 +13,17 @@ export function init(container, questions, topicId) {
   let currentIndex = 0;
   const answered = new Array(questions.length).fill(null); // null | 'correct' | 'wrong'
 
+  // Shuffle answer options once per session (stable during quiz, changes on reset)
+  function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+  let shuffledOrders = questions.map(q => shuffleArray(q.options.map((_, i) => i)));
+
   // ── Render ──────────────────────────────────────────
   function render() {
     const q = questions[currentIndex];
@@ -32,15 +43,24 @@ export function init(container, questions, topicId) {
       <div class="quiz-question-wrap">
         <div class="quiz-question-text">${currentIndex + 1}. ${q.question}</div>
         <div class="quiz-options" id="quiz-options-${topicId}">
-          ${q.options.map((opt, i) => `
-            <button class="quiz-option ${isAnswered ? 'disabled ' + (opt.correct ? 'correct' : answered[currentIndex] === 'wrong' && !opt.correct ? '' : '') : ''}"
-              data-index="${i}"
+          ${shuffledOrders[currentIndex].map((origIdx, i) => {
+            const opt = q.options[origIdx];
+            const wasSelected = selectedIndices[currentIndex] === i;
+            let cls = '';
+            if (isAnswered) {
+              cls += ' disabled';
+              if (opt.correct) cls += ' correct';
+              else if (wasSelected) cls += ' wrong';
+            }
+            return `
+            <button class="quiz-option${cls}"
+              data-shuffled-index="${i}"
               data-correct="${opt.correct}"
               ${isAnswered ? 'disabled' : ''}>
               <span class="quiz-option-key">${String.fromCharCode(65 + i)}</span>
               ${opt.text}
-            </button>
-          `).join('')}
+            </button>`;
+          }).join('')}
         </div>
         ${isAnswered ? renderFeedback(q, currentIndex) : ''}
       </div>
@@ -59,21 +79,7 @@ export function init(container, questions, topicId) {
       </div>
     `;
 
-    // Mark selected answer if answered
-    if (isAnswered) {
-      const opts = container.querySelectorAll('.quiz-option');
-      const selectedIdx = questions[currentIndex].options.findIndex(
-        (_, i) => answered[currentIndex] === (questions[currentIndex].options[i].correct ? 'correct' : 'wrong') && i === getSelectedIndex(currentIndex)
-      );
-      opts.forEach((btn, i) => {
-        const opt = questions[currentIndex].options[i];
-        if (opt.correct) {
-          btn.classList.add('correct');
-        }
-      });
-    }
-
-    // Events
+    // Events – use shuffled index
     container.querySelectorAll('.quiz-option:not([disabled])').forEach(btn => {
       btn.addEventListener('click', () => handleAnswer(btn));
       btn.addEventListener('touchend', e => { e.preventDefault(); handleAnswer(btn); });
@@ -108,7 +114,10 @@ export function init(container, questions, topicId) {
 
   function renderFeedback(q, idx) {
     const status = answered[idx];
-    const selectedOpt = q.options[selectedIndices[idx]];
+    const shuffledIdx = selectedIndices[idx];
+    if (shuffledIdx < 0) return '';
+    const origIdx = shuffledOrders[idx][shuffledIdx];
+    const selectedOpt = q.options[origIdx];
     if (!selectedOpt) return '';
     return `
       <div class="quiz-feedback ${status}">
@@ -117,39 +126,37 @@ export function init(container, questions, topicId) {
     `;
   }
 
-  // Track selected option indices
+  // Track selected shuffled-position indices
   const selectedIndices = new Array(questions.length).fill(-1);
-
-  function getSelectedIndex(idx) {
-    return selectedIndices[idx];
-  }
 
   function handleAnswer(btn) {
     if (answered[currentIndex] !== null) return;
 
-    const optIdx = parseInt(btn.dataset.index);
+    const shuffledIdx = parseInt(btn.dataset.shuffledIndex);
     const correct = btn.dataset.correct === 'true';
 
-    selectedIndices[currentIndex] = optIdx;
+    selectedIndices[currentIndex] = shuffledIdx;
     answered[currentIndex] = correct ? 'correct' : 'wrong';
 
-    // Visually mark all options
+    // Visually mark all options in shuffled display order
     const opts = container.querySelectorAll('.quiz-option');
-    opts.forEach((b, i) => {
+    opts.forEach((b, displayIdx) => {
       b.classList.add('disabled');
       b.setAttribute('disabled', '');
-      if (questions[currentIndex].options[i].correct) {
+      const origIdx = shuffledOrders[currentIndex][displayIdx];
+      if (questions[currentIndex].options[origIdx].correct) {
         b.classList.add('correct');
-      } else if (i === optIdx && !correct) {
+      } else if (displayIdx === shuffledIdx && !correct) {
         b.classList.add('wrong');
       }
     });
 
-    // Show feedback
+    // Show feedback using original option's explanation
     const existingFeedback = container.querySelector('.quiz-feedback');
     if (!existingFeedback) {
       const feedbackDiv = document.createElement('div');
-      const selOpt = questions[currentIndex].options[optIdx];
+      const origIdx = shuffledOrders[currentIndex][shuffledIdx];
+      const selOpt = questions[currentIndex].options[origIdx];
       feedbackDiv.className = `quiz-feedback ${correct ? 'correct' : 'wrong'}`;
       feedbackDiv.textContent = (correct ? '✅ ' : '❌ ') + selOpt.explanation;
       container.querySelector('.quiz-question-wrap').appendChild(feedbackDiv);
@@ -200,6 +207,8 @@ export function init(container, questions, topicId) {
     answered.fill(null);
     selectedIndices.fill(-1);
     currentIndex = 0;
+    // Re-shuffle on each retry
+    shuffledOrders = questions.map(q => shuffleArray(q.options.map((_, i) => i)));
     render();
   }
 
