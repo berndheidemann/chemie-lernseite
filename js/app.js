@@ -286,6 +286,23 @@ function setupResetButton() {
   });
 }
 
+// ── Exp-Card "Zum Quiz" Deeplinks ───────────────────────
+function setupExpQuizLinks() {
+  for (let i = 1; i <= 11; i++) {
+    const expCard = document.getElementById(`exp-${i}`);
+    if (!expCard) continue;
+    const body = expCard.querySelector('.exp-body');
+    if (!body) continue;
+
+    const link = document.createElement('div');
+    link.style.cssText = 'text-align:right; margin-top:1rem; padding-top:0.75rem; border-top:1px solid var(--border)';
+    link.innerHTML = `<a href="#quiz-${i}" class="btn btn-secondary" style="font-size:0.8rem; text-decoration:none; display:inline-flex; align-items:center; gap:0.4rem">
+      📝 Zum Quiz →
+    </a>`;
+    body.appendChild(link);
+  }
+}
+
 // ── Topic Prev/Next Navigation ───────────────────────────
 function setupTopicNavigation() {
   const sections = document.querySelectorAll('.topic-section');
@@ -318,5 +335,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavObserver();
   setupResetButton();
   setupTopicNavigation();
+  setupExpQuizLinks();
   updateQuizStreak();
 });
