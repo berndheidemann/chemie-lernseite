@@ -186,7 +186,8 @@ a:hover { text-decoration: underline; }
 }
 
 .pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   padding: 0.4rem 0.9rem;
   border-radius: 99px;
   border: 1px solid var(--border);
@@ -196,8 +197,8 @@ a:hover { text-decoration: underline; }
   white-space: nowrap;
   transition: var(--transition);
   cursor: pointer;
-  min-height: 36px;
-  line-height: 1.8;
+  min-height: 44px;
+  line-height: 1.2;
 }
 
 .pill:hover,
@@ -709,6 +710,12 @@ canvas {
 
 /* ── Responsive Adjustments ── */
 @media (max-width: 600px) {
+  html {
+    scroll-padding-top: 200px;
+  }
+
+  .quiz-keyboard-hint { display: none; }
+
   .exp-cell.label {
     flex: 0 0 110px;
     font-size: 0.78rem;
@@ -720,6 +727,16 @@ canvas {
   .header-inner { gap: 0.5rem; }
   .progress-bar-wrap { width: 100%; order: 3; }
   #reset-progress-btn { order: 2; }
+
+  /* Header wraps to 2 rows on mobile (~125px) → pill-nav must not overlap */
+  .pill-nav {
+    top: 125px;
+  }
+
+  /* Sections need extra scroll clearance for header + pill-nav */
+  .topic-section {
+    scroll-margin-top: 200px;
+  }
 }
 
 @media (min-width: 601px) {

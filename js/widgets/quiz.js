@@ -58,10 +58,10 @@ export function init(container, questions, topicId) {
 
     container.innerHTML = `
       <div style="display:flex; gap:0.4rem; margin-bottom:0.75rem; align-items:center">
-        <button class="btn btn-secondary" id="mode-quiz" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+        <button class="btn btn-secondary" id="mode-quiz" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:40px">
           📝 Quiz
         </button>
-        <button class="btn btn-amber" id="mode-lk" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+        <button class="btn btn-amber" id="mode-lk" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:40px">
           🃏 Lernkarten
         </button>
         <span style="font-size:0.72rem; color:var(--text-muted); margin-left:auto">${lernkartenIndex + 1}/${total} · ✓ ${knew}</span>
@@ -147,10 +147,10 @@ export function init(container, questions, topicId) {
 
     container.innerHTML = `
       <div style="display:flex; gap:0.4rem; margin-bottom:0.6rem">
-        <button class="btn btn-amber" id="mode-quiz" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+        <button class="btn btn-amber" id="mode-quiz" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:40px">
           📝 Quiz
         </button>
-        <button class="btn btn-secondary" id="mode-lk" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:32px">
+        <button class="btn btn-secondary" id="mode-lk" style="font-size:0.78rem; padding:0.3rem 0.7rem; min-height:40px">
           🃏 Lernkarten
         </button>
       </div>
@@ -206,7 +206,7 @@ export function init(container, questions, topicId) {
         </button>
         ${allAnswered() ? `<button class="btn btn-green" id="quiz-reset-${topicId}">↺ Nochmal</button>` : ''}
       </div>
-      <div style="text-align:center; font-size:0.72rem; color:var(--text-muted); margin-top:0.35rem; opacity:0.6">
+      <div class="quiz-keyboard-hint" style="text-align:center; font-size:0.72rem; color:var(--text-muted); margin-top:0.35rem; opacity:0.6">
         Tastatur: A/B/C/D oder 1/2/3/4 zum Antworten
       </div>
     `;

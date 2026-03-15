@@ -306,6 +306,9 @@ function setupExpQuizLinks() {
 // ── Topic Prev/Next Navigation ───────────────────────────
 function setupTopicNavigation() {
   const sections = document.querySelectorAll('.topic-section');
+  const trunc = t => t && t.length > 20 ? t.slice(0, 20).trimEnd() + '…' : (t || '');
+  const btnStyle = 'font-size:0.82rem; text-decoration:none; max-width:48%; overflow:hidden; white-space:nowrap; text-overflow:ellipsis';
+
   sections.forEach((section, idx) => {
     const nav = document.createElement('div');
     nav.className = 'topic-nav-buttons';
@@ -315,11 +318,11 @@ function setupTopicNavigation() {
     const hasNext = idx < sections.length - 1;
 
     nav.innerHTML = `
-      ${hasPrev ? `<a href="#${sections[idx - 1].id}" class="btn btn-secondary" style="font-size:0.82rem; text-decoration:none">
-        ← ${sections[idx - 1].querySelector('h2')?.textContent || 'Zurück'}
+      ${hasPrev ? `<a href="#${sections[idx - 1].id}" class="btn btn-secondary" style="${btnStyle}">
+        ← ${trunc(sections[idx - 1].querySelector('h2')?.textContent)}
       </a>` : '<span></span>'}
-      ${hasNext ? `<a href="#${sections[idx + 1].id}" class="btn btn-secondary" style="font-size:0.82rem; text-decoration:none">
-        ${sections[idx + 1].querySelector('h2')?.textContent || 'Weiter'} →
+      ${hasNext ? `<a href="#${sections[idx + 1].id}" class="btn btn-secondary" style="${btnStyle}">
+        ${trunc(sections[idx + 1].querySelector('h2')?.textContent)} →
       </a>` : '<a href="#topic-1" class="btn btn-secondary" style="font-size:0.82rem; text-decoration:none">↑ Zum Anfang</a>'}
     `;
     section.appendChild(nav);
