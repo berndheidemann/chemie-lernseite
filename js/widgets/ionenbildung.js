@@ -30,9 +30,9 @@ export function init(container, unlock) {
   let animating = false;
 
   const STEPS = [
-    { label: 'Ausgangszustand', desc: 'Na-Atom (11 Protonen, 11 Elektronen) und Cl-Atom (17 Protonen, 17 Elektronen) – beide neutral.' },
-    { label: 'Elektronenübertragung', desc: 'Na gibt sein Außenelektron ab. Es "springt" zu Cl.' },
-    { label: 'Ionenpaar entstand', desc: 'Na⁺ (Kation) und Cl⁻ (Anion) ziehen sich an → Ionenbindung!' },
+    { label: 'Ausgangszustand', desc: 'Na-Atom (11p, 11e – neutral) und Cl-Atom (17p, 17e – neutral). Na hat 1 Valenzelektron, Cl hat 7.' },
+    { label: 'Elektronenübertragung', desc: 'Na gibt sein Außenelektron ab (11p, 10e = Ne-Konfiguration). Es "springt" zu Cl (17p, 18e = Ar-Konfiguration).' },
+    { label: 'Ionenpaar entstand', desc: 'Na⁺ (10e, Ladung +1) und Cl⁻ (18e, Ladung −1) – beide haben Edelgaskonfiguration! Coulomb-Anziehung → Ionenbindung NaCl.' },
   ];
 
   function render() {

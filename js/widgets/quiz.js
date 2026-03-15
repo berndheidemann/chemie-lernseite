@@ -76,7 +76,8 @@ export function init(container, questions, topicId) {
       btn.addEventListener('touchend', e => { e.preventDefault(); handleAnswer(btn); });
     });
 
-    // Keyboard shortcuts: A/B/C/D or 1/2/3/4
+    // Keyboard shortcuts: A/B/C/D or 1/2/3/4 — remove old handler first
+    if (container._quizKeyHandler) document.removeEventListener('keydown', container._quizKeyHandler);
     const keyHandler = (e) => {
       if (answered[currentIndex] !== null) return;
       const keyMap = { a: 0, b: 1, c: 2, d: 3, '1': 0, '2': 1, '3': 2, '4': 3 };

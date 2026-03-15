@@ -104,9 +104,14 @@ export function init(container, unlock) {
         </div>
       </div>
 
-      <!-- Counter -->
-      <div style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem">
+      <!-- Counter + Tipp -->
+      <div style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-bottom:0.5rem">
         Platziert: <strong style="color:${totalPlaced === el.valence ? 'var(--green)' : totalPlaced > el.valence ? '#f75050' : 'var(--amber)'}">${totalPlaced}</strong> / ${el.valence} Elektronen
+        ${totalPlaced > el.valence ? '<span style="color:#f75050"> ← zu viele!</span>' : ''}
+        ${totalPlaced === el.valence ? '<span style="color:var(--green)"> ✓</span>' : ''}
+      </div>
+      <div style="text-align:center; font-size:0.78rem; color:var(--text-muted); margin-bottom:0.75rem; background:rgba(255,212,59,0.05); border-radius:6px; padding:4px 8px">
+        💡 Tipp: ${el.name} ist in der <strong style="color:var(--amber)">${el.group}. Hauptgruppe</strong> → ${el.valence} Valenzelektronen. Erst alle 4 Seiten einzeln, dann Paare!
       </div>
 
       ${checked ? `
