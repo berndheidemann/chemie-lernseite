@@ -214,6 +214,11 @@ a:hover { text-decoration: underline; }
   color: var(--green);
 }
 
+.pill.done::after {
+  content: ' ✓';
+  font-size: 0.7em;
+}
+
 /* ── Main Layout ── */
 .main-content {
   max-width: 900px;
@@ -280,6 +285,12 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 0 30px rgba(77,171,247,0.08);
   min-height: 200px;
   padding-top: 2rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.widget-card:hover {
+  box-shadow: 0 0 40px rgba(77,171,247,0.14);
+  border-color: rgba(77,171,247,0.2);
 }
 
 /* Explanation Card */
@@ -669,14 +680,19 @@ canvas {
 /* ── Scroll animations ── */
 .topic-section {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .topic-section.visible {
   opacity: 1;
   transform: none;
 }
+
+/* Stagger animation for cards within visible sections */
+.topic-section.visible .widget-card { transition-delay: 0.05s; }
+.topic-section.visible .exp-card    { transition-delay: 0.10s; }
+.topic-section.visible .quiz-card   { transition-delay: 0.15s; }
 
 /* First section always visible on load */
 #topic-1 {
