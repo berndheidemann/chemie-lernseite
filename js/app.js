@@ -267,6 +267,29 @@ function setupResetButton() {
   });
 }
 
+// ── Topic Prev/Next Navigation ───────────────────────────
+function setupTopicNavigation() {
+  const sections = document.querySelectorAll('.topic-section');
+  sections.forEach((section, idx) => {
+    const nav = document.createElement('div');
+    nav.className = 'topic-nav-buttons';
+    nav.style.cssText = 'display:flex; justify-content:space-between; align-items:center; margin-top:1rem; gap:0.5rem';
+
+    const hasPrev = idx > 0;
+    const hasNext = idx < sections.length - 1;
+
+    nav.innerHTML = `
+      ${hasPrev ? `<a href="#${sections[idx - 1].id}" class="btn btn-secondary" style="font-size:0.82rem; text-decoration:none">
+        ← ${sections[idx - 1].querySelector('h2')?.textContent || 'Zurück'}
+      </a>` : '<span></span>'}
+      ${hasNext ? `<a href="#${sections[idx + 1].id}" class="btn btn-secondary" style="font-size:0.82rem; text-decoration:none">
+        ${sections[idx + 1].querySelector('h2')?.textContent || 'Weiter'} →
+      </a>` : '<a href="#topic-1" class="btn btn-secondary" style="font-size:0.82rem; text-decoration:none">↑ Zum Anfang</a>'}
+    `;
+    section.appendChild(nav);
+  });
+}
+
 // ── Boot ────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   lockExpCards();
@@ -275,4 +298,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initQuizzes();
   setupNavObserver();
   setupResetButton();
+  setupTopicNavigation();
 });
